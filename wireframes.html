@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HMS — Screen Wireframes</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f3f4f6; color: #1f2937; padding: 20px; }
+  h1 { text-align: center; margin-bottom: 30px; font-size: 28px; }
+  .screen { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 40px; overflow: hidden; max-width: 1100px; margin-left: auto; margin-right: auto; }
+  .screen-header { background: #1e40af; color: white; padding: 12px 20px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+  .screen-header .url { opacity: 0.7; font-family: monospace; font-size: 12px; }
+  .screen-title { font-size: 13px; font-weight: 600; }
+  .screen-body { padding: 20px; }
+  .sidebar { width: 200px; background: #1e3a5f; color: white; padding: 15px; border-radius: 8px; float: left; margin-right: 20px; min-height: 400px; }
+  .sidebar .nav-item { padding: 8px 12px; margin: 2px 0; border-radius: 6px; font-size: 12px; cursor: pointer; }
+  .sidebar .nav-item.active { background: rgba(255,255,255,0.15); }
+  .sidebar .nav-item:hover { background: rgba(255,255,255,0.1); }
+  .sidebar .nav-group { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 12px; margin-bottom: 4px; text-transform: uppercase; }
+  .content { overflow: hidden; }
+  .stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .stat-card { padding: 16px; border-radius: 8px; color: white; }
+  .stat-card .value { font-size: 28px; font-weight: 700; }
+  .stat-card .label { font-size: 11px; opacity: 0.9; margin-top: 4px; }
+  .table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .table th { background: #f9fafb; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #e5e7eb; }
+  .table td { padding: 10px 12px; border-bottom: 1px solid #f3f4f6; }
+  .table tr:hover td { background: #f9fafb; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; }
+  .badge-green { background: #dcfce7; color: #166534; }
+  .badge-yellow { background: #fef9c3; color: #854d0e; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+  .badge-blue { background: #dbeafe; color: #1e40af; }
+  .badge-purple { background: #f3e8ff; color: #7c3aed; }
+  .badge-orange { background: #ffedd5; color: #c2410c; }
+  .btn { display: inline-block; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; }
+  .btn-primary { background: #2563eb; color: white; }
+  .btn-green { background: #16a34a; color: white; }
+  .btn-red { background: #dc2626; color: white; }
+  .btn-gray { background: #e5e7eb; color: #374151; }
+  .btn-sm { padding: 3px 10px; font-size: 11px; }
+  .form-group { margin-bottom: 12px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 500; color: #6b7280; margin-bottom: 4px; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .filter-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: flex-end; }
+  .filter-bar .filter { }
+  .filter-bar .filter label { display: block; font-size: 10px; color: #9ca3af; margin-bottom: 3px; }
+  .filter-bar .filter input, .filter-bar .filter select { padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 12px; }
+  .clearfix::after { content: ''; display: table; clear: both; }
+  .section-label { font-size: 16px; font-weight: 600; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; }
+  .slot-grid { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .slot { padding: 6px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 12px; cursor: pointer; }
+  .slot.active { background: #2563eb; color: white; border-color: #2563eb; }
+  .slot.taken { background: #fee2e2; color: #999; text-decoration: line-through; }
+  .alert-box { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; }
+  .alert-yellow { background: #fef9c3; border: 1px solid #fde68a; color: #854d0e; }
+  .alert-red { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; }
+  .modal-overlay { background: rgba(0,0,0,0.08); border: 2px dashed #d1d5db; border-radius: 12px; padding: 20px; margin-top: 16px; }
+  .modal-box { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); max-width: 400px; margin: auto; }
+  .rx-item { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; margin-bottom: 8px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 8px; align-items: center; font-size: 12px; }
+  .page-label { text-align: center; background: #1e40af; color: white; padding: 8px; font-size: 18px; font-weight: 700; letter-spacing: 1px; }
+  .queue-card { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #f9fafb; border-radius: 8px; margin-bottom: 8px; }
+  .queue-num { font-size: 24px; font-weight: 700; color: #2563eb; }
+  .vital-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; font-size: 12px; padding: 8px 0; border-bottom: 1px solid #f3f4f6; }
+  .two-col { display: grid; grid-template-columns: 250px 1fr; gap: 20px; }
+  .patient-sidebar { background: #f9fafb; border-radius: 8px; padding: 16px; font-size: 12px; }
+  .patient-sidebar .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; margin: 2px; }
+  .tag-red { background: #fee2e2; color: #991b1b; }
+  .tag-orange { background: #ffedd5; color: #c2410c; }
+  .tag-blue { background: #dbeafe; color: #1e40af; }
+</style>
+</head>
+<body>
+<h1>🏥 HMS — Screen Wireframes</h1>
+<p style="text-align:center;color:#6b7280;margin-bottom:30px">Visual representation of key system screens</p>
+
+<!-- Screen 1: Appointment Booking -->
+<div class="screen">
+  <div class="screen-header"><span class="screen-title">1. Patient Appointment Booking</span><span class="url">/doctor/:id/book</span></div>
+  <div class="screen-body">
+    <div class="section-label">📅 Book Appointment — Dr. Aisha Rahman (Pediatrics)</div>
+    <div class="form-row">
+      <div class="form-group"><label>Select Date</label><input type="date" value="2026-04-05"></div>
+      <div class="form-group"><label>Doctor</label><input value="Dr. Aisha Rahman — Pediatrics" disabled></div>
+    </div>
+    <label style="font-size:12px;font-weight:500;color:#6b7280;margin-bottom:6px;display:block">Available Time Slots</label>
+    <div class="slot-grid">
+      <div class="slot active">09:00</div><div class="slot">09:20</div><div class="slot">09:40</div>
+      <div class="slot">10:00</div><div class="slot taken">10:20</div><div class="slot">10:40</div>
+      <div class="slot">11:00</div><div class="slot taken">11:20</div><div class="slot">11:40</div>
+      <div class="slot">12:00</div><div class="slot">12:20</div><div class="slot taken">12:40</div>
+      <div class="slot">13:00</div><div class="slot">13:20</div>
+    </div>
+    <div class="form-row" style="margin-top:12px">
+      <div class="form-group"><label>Patient Name</label><input value="Amina Begum"></div>
+      <div class="form-group"><label>Email</label><input value="amina.begum@email.com"></div>
+    </div>
+    <div class="form-group"><label>Reason for Visit</label><textarea rows="2">Routine checkup and vaccination</textarea></div>
+    <div class="form-group"><label>Appointment Type</label>
+      <select><option>New Visit</option><option>Follow-Up</option><option>Emergency</option><option>Telemedicine</option></select>
+    </div>
+    <button class="btn btn-primary" style="margin-top:8px">Confirm Appointment</button>
+  </div>
+</div>
+
+<!-- Screen 2: Appointments List -->
+<div class="screen">
+  <div class="screen-header"><span class="screen-title">2. Appointments List (Admin View)</span><span class="url">/app/appointments</span></div>
+  <div class="screen-body">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <span style="font-size:20px;font-weight:700">Appointments</span>
+      <button class="btn btn-primary">+ New Appointment</button>
+    </div>
+    <div class="filter-bar">
+      <div class="filter"><label>Search</label><input placeholder="Search by patient, doctor, or ID..." style="width:250px"></div>
+      <div class="filter"><label>Doctor</label><select><option>All Doctors</option><option>Dr. Aisha Rahman</option><option>Dr. Carlos Mendez</option></select></div>
+      <div class="filter"><label>Status</label><select><option>All Statuses</option><option>scheduled</option><option>approved</option><option>completed</option></select></div>
+      <div class="filter"><label>From</label><input type="date"></div>
+      <div class="filter"><label>To</label><input type="date"></div>
+      <span style="color:#dc2626;font-size:12px;cursor:pointer">Clear All</span>
+    </div>
+    <table class="table">
+      <thead><tr><th>ID</th><th>Type</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td>APT-00045</td><td><span class="badge badge-blue">new visit</span></td><td>Amina Begum</td><td>Dr. Aisha Rahman</td><td>2026-04-02</td><td>09:00</td><td><span class="badge badge-green">completed</span></td><td><span style="color:#2563eb;font-size:11px;cursor:pointer">History</span> <span style="color:#6366f1;font-size:11px;cursor:pointer">Timeline</span></td></tr>
+        <tr><td>APT-00046</td><td><span class="badge badge-blue">follow up</span></td><td>David Kim</td><td>Dr. Carlos Mendez</td><td>2026-04-02</td><td>10:00</td><td><span class="badge badge-purple">in consultation</span></td><td><span style="color:#16a34a;font-size:11px">End Consultation</span></td></tr>
+        <tr><td>APT-00047 <span class="badge badge-blue" style="font-size:9px">🔄 Follow-up</span></td><td><span class="badge badge-orange">emergency</span></td><td>Fatima Noor</td><td>Dr. Fatima Al-Sayed</td><td>2026-04-02</td><td>11:00</td><td><span class="badge badge-yellow">checked in</span></td><td><span style="color:#7c3aed;font-size:11px">Start Consultation</span> <span class="badge" style="background:#dbeafe;color:#1e40af;font-size:10px">Q-003</span></td></tr>
+        <tr><td>APT-00048</td><td><span class="badge badge-blue">new visit</span></td><td>George Thompson</td><td>Dr. Rajesh Kumar</td><td>2026-04-03</td><td>14:00</td><td><span class="badge badge-orange">pending approval</span></td><td><span style="color:#16a34a;font-size:11px">Approve</span> <span style="color:#ea580c;font-size:11px">Reject</span></td></tr>
+        <tr><td>APT-00049</td><td><span class="badge badge-purple">telemedicine</span></td><td>Hannah Lee</td><td>Dr. Emily Chen</td><td>2026-04-05</td><td>09:30</td><td><span class="badge badge-yellow">scheduled</span></td><td><span style="color:#dc2626;font-size:11px">Delete</span></td></tr>
+      </tbody>
+    </table>
+    <div style="text-align:center;margin-top:12px;font-size:12px;color:#9ca3af">Page 1 of 5 — 65 total appointments</div>
+  </div>
+</div>
+
+<!-- Screen 3: Doctor Write Case -->
+<div class="screen">
+  <div class="screen-header"><span class="screen-title">3. Doctor — Write Case + End Consultation</span><span class="url">/app/appointments/:id/write-case</span></div>
+  <div class="screen-body">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <span style="font-size:20px;font-weight:700">Write Case</span>
+      <div><button class="btn btn-sm" style="background:#7c3aed;color:white">🧪 Order Lab Test</button> <span style="color:#6b7280;font-size:12px;cursor:pointer">← Back</span></div>
+    </div>
+    <div style="background:#f9fafb;border-radius:8px;padding:10px 16px;margin-bottom:16px;font-size:12px;display:flex;gap:24px">
+      <span><b style="color:#9ca3af">Appointment:</b> APT-00045</span>
+      <span><b style="color:#9ca3af">Patient:</b> Amina Begum</span>
+      <span><b style="color:#9ca3af">Doctor:</b> Dr. Aisha Rahman</span>
+      <span class="badge badge-purple">in consultation</span>
+    </div>
+    <div class="two-col">
+      <div class="patient-sidebar">
+        <div style="font-weight:600;margin-bottom:10px">📋 Patient Quick Reference</div>
+        <div style="margin-bottom:10px"><span style="color:#dc2626;font-size:11px;font-weight:600">⚠️ Allergies</span><br><span class="tag tag-red">Penicillin</span><span class="tag tag-red">Aspirin</span></div>
+        <div style="margin-bottom:10px"><span style="color:#6b7280;font-size:11px">Health Info</span><br>Blood: <b>A+</b> | Height: 165cm | Weight: 62kg</div>
+        <div style="margin-bottom:10px"><span style="color:#ea580c;font-size:11px;font-weight:600">Chronic Conditions</span><br><span class="tag tag-orange">Hypertension</span></div>
+        <div style="margin-bottom:10px"><span style="color:#2563eb;font-size:11px;font-weight:600">Current Medications</span><br><span class="tag tag-blue">Amlodipine 5mg</span></div>
+        <div><span style="color:#7c3aed;font-size:11px;font-weight:600">Recent Vitals</span>
+          <div style="background:white;border-radius:6px;padding:6px;margin-top:4px;font-size:11px">Apr 1 — 🌡 36.8°C | 💓 120/80 | ♥ 72 bpm | O₂ 98%</div>
+        </div>
+      </div>
+      <div>
+        <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span>📝 Quick Templates</span><span style="color:#2563eb;cursor:pointer">Show Templates</span></div>
+        </div>
+        <div class="form-group"><label>Symptoms</label><div style="border:1px solid #d1d5db;border-radius:6px;padding:8px;min-height:40px;font-size:13px">Persistent headache, fatigue, blurred vision</div></div>
+        <div class="form-group"><label>Diagnosis</label><div style="border:1px solid #d1d5db;border-radius:6px;padding:8px;font-size:13px">Hypertension Stage 1 (I10)</div></div>
+        <div style="border:1px solid #e5e7eb;border-radius:8px;padding:12px;background:#f9fafb;margin-bottom:12px">
+          <span style="font-size:13px;font-weight:600">💊 Prescription</span>
+          <div class="rx-item" style="margin-top:8px"><span><b>Amlodipine 5mg</b></span><span>5mg</span><span>Once daily</span><span>30 days</span><span style="color:#dc2626;cursor:pointer">✕</span></div>
+        </div>
+        <button class="btn btn-primary">Save Case</button>
+      </div>
+    </div>
+
+    <!-- End Consultation Modal -->
+    <div class="modal-overlay" style="margin-top:20px">
+      <div style="text-align:center;color:#9ca3af;font-size:11px;margin-bottom:8px">— End Consultation Modal (Doctor sets charge) —</div>
+      <div class="modal-box">
+        <div style="font-weight:600;margin-bottom:4px">End Consultation</div>
+        <div style="font-size:12px;color:#6b7280;margin-bottom:12px">Amina Begum — APT-00045</div>
+        <div style="margin-bottom:12px">
+          <label style="font-size:12px;font-weight:500;color:#6b7280;display:block;margin-bottom:6px">Consultation Complexity</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div style="border:2px solid #22c55e;background:#f0fdf4;border-radius:8px;padding:10px;text-align:center;cursor:pointer"><div style="font-weight:600;font-size:13px">Simple</div><div style="font-size:10px;color:#6b7280">Routine checkup</div></div>
+            <div style="border:2px solid #d1d5db;border-radius:8px;padding:10px;text-align:center;cursor:pointer"><div style="font-weight:600;font-size:13px">Moderate</div><div style="font-size:10px;color:#6b7280">Standard consult</div></div>
+            <div style="border:2px solid #d1d5db;border-radius:8px;padding:10px;text-align:center;cursor:pointer"><div style="font-weight:600;font-size:13px">Complex</div><div style="font-size:10px;color:#6b7280">Detailed exam</div></div>
+          </div>
+        </div>
+        <div class="form-group"><label>Consultation Charge ($)</label><input type="number" value="450.00" style="font-size:16px;font-weight:600"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+          <button class="btn btn-gray btn-sm">Cancel</button>
+          <button class="btn btn-green btn-sm">End Consultation</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 4: Lab Orders -->
+<div class="screen">
+  <div class="screen-header"><span class="screen-title">4. Lab Processing Queue</span><span class="url">/app/lab/queue</span></div>
+  <div class="screen-body">
+    <div style="font-size:20px;font-weight:700;margin-bottom:16px">Lab Processing Queue</div>
+    <table class="table">
+      <thead><tr><th>Order ID</th><th>Patient</th><th>Doctor</th><th>Tests</th><th>Priority</th><th>Status</th><th>Turnaround</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td>LAB-00012</td><td>Fatima Noor</td><td>Dr. Rajesh Kumar</td><td>CBC, ESR, CRP</td><td><span class="badge badge-red">STAT</span></td><td><span class="badge badge-blue">ordered</span></td><td style="color:#dc2626;font-weight:600">⏰ 2h overdue</td><td><button class="btn btn-sm" style="background:#eab308;color:white">Collect Sample</button></td></tr>
+        <tr><td>LAB-00013</td><td>Ibrahim Malik</td><td>Dr. Emily Chen</td><td>FBS, HbA1c</td><td><span class="badge badge-orange">Urgent</span></td><td><span class="badge badge-yellow">sample collected</span></td><td>6h remaining</td><td><button class="btn btn-sm btn-primary">Start Processing</button></td></tr>
+        <tr><td>LAB-00014</td><td>Julia Santos</td><td>Dr. Aisha Rahman</td><td>Urine Culture</td><td><span class="badge badge-green">Normal</span></td><td><span class="badge badge-purple">processing</span></td><td>18h remaining</td><td><span style="color:#2563eb;font-size:11px">Enter Results →</span></td></tr>
+        <tr><td>LAB-00015</td><td>Marco Rossi</td><td>Dr. David Park</td><td>LFT, Lipid Panel</td><td><span class="badge badge-green">Normal</span></td><td><span class="badge badge-blue">ordered</span></td><td>22h remaining</td><td><button class="btn btn-sm" style="background:#eab308;color:white">Collect Sample</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Screen 5: Pharmacy Dispensing -->
+<div class="screen">
+  <div class="screen-header"><span class="screen-title">5. Pharmacy Dispensing Queue</span><span class="url">/app/pharmacy/queue</span></div>
+  <div class="screen-body">
+    <div style="font-size:20px;font-weight:700;margin-bottom:16px">Dispensing Queue</div>
+    <table class="table">
+      <thead><tr><th>Prescription</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Items</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td>RX-00018</td><td>Amina Begum</td><td>Dr. Aisha Rahman</td><td>2026-04-02</td><td>2 medicines</td><td><span class="badge badge-blue">pending</span></td><td><button class="btn btn-sm btn-green">Dispense</button></td></tr>
+        <tr><td>RX-00019</td><td>David Kim</td><td>Dr. Carlos Mendez</td><td>2026-04-02</td><td>3 medicines</td><td><span class="badge badge-blue">pending</span></td><td><button class="btn btn-sm btn-green">Dispense</button></td></tr>
+        <tr><td>RX-00017</td><td>George Thompson</td><td>Dr. Rajesh Kumar</td><td>2026-04-01</td><td>1 medicine</td><td><span class="badge badge-yellow">partially dispensed</span></td><td><button class="btn btn-sm btn-green">Dispense</button></td></tr>
+      </tbody>
+    </table>
+    <div class="modal-overlay" style="margin-top:20px">
+      <div style="text-align:center;color:#9ca3af;font-size:11px;margin-bottom:8px">— Dispense Modal —</div>
+      <div class="modal-box">
+        <div style="font-weight:600;margin-bottom:4px">Dispense — RX-00018</div>
+        <div style="font-size:12px;color:#6b7280;margin-bottom:12px">Amina Begum • Dr. Aisha Rahman</div>
+        <table class="table" style="font-size:12px">
+          <thead><tr><th>Medicine</th><th>Prescribed</th><th>Stock</th><th>Dispense Qty</th></tr></thead>
+          <tbody>
+            <tr><td>Amlodipine 5mg</td><td>30</td><td style="color:#16a34a">✓ 150</td><td><input type="number" value="30" style="width:60px;padding:4px;border:1px solid #d1d5db;border-radius:4px"></td></tr>
+            <tr><td>Hydrochlorothiazide 25mg</td><td>30</td><td style="color:#16a34a">✓ 85</td><td><input type="number" value="30" style="width:60px;padding:4px;border:1px solid #d1d5db;border-radius:4px"></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn btn-gray btn-sm">Cancel</button>
+          <button class="btn btn-green btn-sm">Confirm Dispense</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 6: Cashier Payment -->
+<div class="screen">
+  <div class="screen-header"><span class="screen-title">6. Cashier Dashboard & Payment</span><span class="url">/app/finance/cashier</span></div>
+  <div class="screen-body">
+    <div style="font-size:20px;font-weight:700;margin-bottom:16px">Cashier Dashboard</div>
+    <div class="alert-yellow alert-box">⚠ Patient must pay here BEFORE collecting medicines from pharmacy</div>
+    <div class="stat-cards">
+      <div class="stat-card" style="background:#16a34a"><div class="value">$2,450.00</div><div class="label">Collected Today</div></div>
+      <div class="stat-card" style="background:#eab308"><div class="value">8</div><div class="label">Pending Invoices</div></div>
+      <div class="stat-card" style="background:#2563eb"><div class="value">12</div><div class="label">Today's Transactions</div></div>
+      <div class="stat-card" style="background:#7c3aed"><div class="value">$500.00</div><div class="label">Cash Float</div></div>
+    </div>
+    <div class="form-group"><label>Search Patient</label><input placeholder="Search by name, ID, or phone..." value="Amina Begum"></div>
+    <div style="background:#f9fafb;border-radius:8px;padding:16px;margin-bottom:16px">
+      <div style="font-weight:600;margin-bottom:8px">Patient: Amina Begum (PAT-0005)</div>
+      <table class="table" style="font-size:12px">
+        <thead><tr><th>Invoice</th><th>Date</th><th>Total</th><th>Paid</th><th>Balance</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>HMS-INV-00012</td><td>2026-04-02</td><td>$850.00</td><td>$0.00</td><td style="color:#dc2626;font-weight:600">$850.00</td><td><button class="btn btn-sm btn-green">Collect Payment</button></td></tr>
+          <tr><td>HMS-INV-00008</td><td>2026-03-28</td><td>$450.00</td><td>$200.00</td><td style="color:#ea580c;font-weight:600">$250.00</td><td><button class="btn btn-sm btn-green">Collect Payment</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-overlay">
+      <div style="text-align:center;color:#9ca3af;font-size:11px;margin-bottom:8px">— Payment Modal —</div>
+      <div class="modal-box">
+        <div style="font-weight:600;margin-bottom:8px">Collect Payment — HMS-INV-00012</div>
+        <div class="form-group"><label>Amount</label><input type="number" value="850.00"></div>
+        <div class="form-group"><label>Payment Method</label>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <div style="padding:8px;border:2px solid #2563eb;border-radius:6px;text-align:center;font-size:12px;background:#eff6ff;font-weight:600">Cash</div>
+            <div style="padding:8px;border:1px solid #d1d5db;border-radius:6px;text-align:center;font-size:12px">Card</div>
+            <div style="padding:8px;border:1px solid #d1d5db;border-radius:6px;text-align:center;font-size:12px">Insurance</div>
+            <div style="padding:8px;border:1px solid #d1d5db;border-radius:6px;text-align:center;font-size:12px">Online</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+          <button class="btn btn-gray btn-sm">Cancel</button>
+          <button class="btn btn-green btn-sm">Confirm & Print Receipt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 7: Queue Display (TV Mode) -->
+<div class="screen">
+  <div class="screen-header" style="background:#111827"><span class="screen-title">7. Queue Display — TV/Monitor Mode (Public)</span><span class="url">/queue-display</span></div>
+  <div class="screen-body" style="background:#111827;color:white;padding:30px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+      <div><div style="font-size:28px;font-weight:700">Patient Queue</div><div style="color:#9ca3af">Avg consultation: ~18 min</div></div>
+      <div style="text-align:right"><div style="font-size:36px;font-weight:700;font-family:monospace">02:35 PM</div><div style="color:#9ca3af">Thursday, April 2, 2026</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
+      <div style="background:rgba(234,179,8,0.15);border:1px solid #eab308;border-radius:12px;padding:20px;text-align:center"><div style="font-size:36px;font-weight:700;color:#facc15">4</div><div style="color:#fde68a">Waiting</div></div>
+      <div style="background:rgba(59,130,246,0.15);border:1px solid #3b82f6;border-radius:12px;padding:20px;text-align:center"><div style="font-size:36px;font-weight:700;color:#60a5fa">3</div><div style="color:#93c5fd">Active Doctors</div></div>
+      <div style="background:rgba(34,197,94,0.15);border:1px solid #22c55e;border-radius:12px;padding:20px;text-align:center"><div style="font-size:36px;font-weight:700;color:#4ade80">~18m</div><div style="color:#86efac">Avg Wait</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:#1f2937;border-radius:12px;overflow:hidden">
+        <div style="background:#2563eb;padding:12px 20px"><div style="font-size:18px;font-weight:700">Dr. Aisha Rahman</div><div style="color:#93c5fd;font-size:13px">2 patients waiting</div></div>
+        <div style="padding:4px 0">
+          <div style="padding:12px 20px;display:flex;justify-content:space-between;background:rgba(234,179,8,0.1)"><div><span style="font-size:22px;font-weight:700;color:#facc15">Q-001</span> <span style="margin-left:12px">Amina Begum</span><br><span style="color:#facc15;font-size:11px;animation:pulse 1s infinite">NEXT</span></div><div style="text-align:right"><span style="font-size:18px;font-weight:700;color:#4ade80">Now</span><br><span style="color:#6b7280;font-size:11px">est. wait</span></div></div>
+          <div style="padding:12px 20px;display:flex;justify-content:space-between"><div><span style="font-size:22px;font-weight:700;color:#6b7280">Q-002</span> <span style="margin-left:12px">David Kim</span></div><div style="text-align:right"><span style="font-size:18px;font-weight:700;color:#fde68a">~18m</span><br><span style="color:#6b7280;font-size:11px">est. wait</span></div></div>
+        </div>
+      </div>
+      <div style="background:#1f2937;border-radius:12px;overflow:hidden">
+        <div style="background:#2563eb;padding:12px 20px"><div style="font-size:18px;font-weight:700">Dr. Carlos Mendez</div><div style="color:#93c5fd;font-size:13px">2 patients waiting</div></div>
+        <div style="padding:4px 0">
+          <div style="padding:12px 20px;display:flex;justify-content:space-between;background:rgba(234,179,8,0.1)"><div><span style="font-size:22px;font-weight:700;color:#facc15">Q-001</span> <span style="margin-left:12px">Fatima Noor</span><br><span style="color:#facc15;font-size:11px">NEXT</span></div><div style="text-align:right"><span style="font-size:18px;font-weight:700;color:#4ade80">Now</span></div></div>
+          <div style="padding:12px 20px;display:flex;justify-content:space-between"><div><span style="font-size:22px;font-weight:700;color:#6b7280">Q-002</span> <span style="margin-left:12px">George Thompson</span></div><div style="text-align:right"><span style="font-size:18px;font-weight:700;color:#fde68a">~18m</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;color:#4b5563;font-size:12px;margin-top:16px">Auto-refreshes every 15 seconds</div>
+  </div>
+</div>
+
+<!-- Screen 8: Admin Dashboard -->
+<div class="screen">
+  <div class="screen-header"><span class="screen-title">8. Admin Dashboard</span><span class="url">/app/dashboard</span></div>
+  <div class="screen-body">
+    <div style="font-size:20px;font-weight:700;margin-bottom:16px">Welcome, Admin <span style="font-size:12px;color:#6b7280;font-weight:400">(Full Access — Primary: Reports & Settings, Backup: All Operations)</span></div>
+    <div class="stat-cards">
+      <div class="stat-card" style="background:#2563eb"><div class="value">156</div><div class="label">Total Patients</div></div>
+      <div class="stat-card" style="background:#16a34a"><div class="value">10</div><div class="label">Total Doctors</div></div>
+      <div class="stat-card" style="background:#eab308"><div class="value">8</div><div class="label">Today's Appointments</div></div>
+      <div class="stat-card" style="background:#ea580c"><div class="value">4</div><div class="label">Pending Approval</div></div>
+      <div class="stat-card" style="background:#dc2626"><div class="value">3</div><div class="label">Open Cases</div></div>
+      <div class="stat-card" style="background:#7c3aed"><div class="value">65</div><div class="label">Total Cases</div></div>
+      <div class="stat-card" style="background:#6366f1"><div class="value">5</div><div class="label">Lab Orders Today</div></div>
+    </div>
+    <div style="font-size:14px;font-weight:600;margin-bottom:8px">Recent Appointments</div>
+    <table class="table" style="font-size:12px">
+      <thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Amina Begum</td><td>Dr. Aisha Rahman</td><td>2026-04-02</td><td>09:00</td><td><span class="badge badge-green">completed</span></td></tr>
+        <tr><td>David Kim</td><td>Dr. Carlos Mendez</td><td>2026-04-02</td><td>10:00</td><td><span class="badge badge-purple">in consultation</span></td></tr>
+        <tr><td>Fatima Noor</td><td>Dr. Fatima Al-Sayed</td><td>2026-04-02</td><td>11:00</td><td><span class="badge badge-yellow">checked in</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div style="text-align:center;color:#9ca3af;padding:30px;font-size:13px">
+  HMS — Hospital Management System | Open <code>screenshots/wireframes.html</code> in a browser to view
+</div>
+
+<!-- Role Permissions Summary -->
+<div class="screen">
+  <div class="screen-header"><span class="screen-title">9. Role Permissions Summary</span><span class="url">System-wide</span></div>
+  <div class="screen-body">
+    <div style="font-size:20px;font-weight:700;margin-bottom:16px">Who Can Do What</div>
+    <table class="table" style="font-size:12px">
+      <thead><tr>
+        <th>Action</th>
+        <th style="text-align:center">Receptionist</th>
+        <th style="text-align:center">Doctor</th>
+        <th style="text-align:center">Nurse</th>
+        <th style="text-align:center">Lab Tech</th>
+        <th style="text-align:center">Pharmacist</th>
+        <th style="text-align:center">Cashier</th>
+        <th style="text-align:center">Admin</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Approve/Reject Appointments</td><td style="text-align:center">✅</td><td style="text-align:center">✅</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">✅ <span style="font-size:10px;color:#9ca3af">(backup)</span></td></tr>
+        <tr><td>Check-In Patients</td><td style="text-align:center">✅</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">✅ <span style="font-size:10px;color:#9ca3af">(backup)</span></td></tr>
+        <tr><td>Reschedule Appointments</td><td style="text-align:center">✅</td><td style="text-align:center">✅</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">✅ <span style="font-size:10px;color:#9ca3af">(backup)</span></td></tr>
+        <tr><td>Start/End Consultation</td><td style="text-align:center">—</td><td style="text-align:center">✅</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td></tr>
+        <tr><td>Set Complexity & Charge</td><td style="text-align:center">—</td><td style="text-align:center">✅</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td></tr>
+        <tr><td>Write Cases & Prescribe</td><td style="text-align:center">—</td><td style="text-align:center">✅</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td></tr>
+        <tr><td>Order Lab Tests</td><td style="text-align:center">—</td><td style="text-align:center">✅</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td></tr>
+        <tr><td>Process Lab Results</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">✅</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td></tr>
+        <tr><td>Dispense Medicines</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">✅</td><td style="text-align:center">—</td><td style="text-align:center">—</td></tr>
+        <tr><td>Record Vitals & Care Notes</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">✅</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td></tr>
+        <tr><td>Generate Invoices</td><td style="text-align:center">✅</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">✅ <span style="font-size:10px;color:#9ca3af">(backup)</span></td></tr>
+        <tr style="background:#fef9c3"><td style="font-weight:600">Collect Payments</td><td style="text-align:center">—</td><td style="text-align:center">❌</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center;font-weight:700;color:#16a34a">✅ Only</td><td style="text-align:center">—</td></tr>
+        <tr><td>View Financial Reports</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">✅</td></tr>
+        <tr><td>System Settings</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">—</td><td style="text-align:center">✅</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px;font-size:11px;color:#6b7280">
+      <b>Key rule:</b> Only the <b>Cashier</b> can collect payments. Doctors can approve/reject/reschedule but cannot handle money. Admin has full access as backup for emergencies.
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+<div style="text-align:center;color:#9ca3af;padding:30px;font-size:13px">
+  HMS — Hospital Management System | Open <code>screenshots/wireframes.html</code> in a browser to view
+</div>
+</body>
+</html>

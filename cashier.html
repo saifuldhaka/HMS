@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HMS — Cashier Portal Prototype</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;display:flex;height:100vh;overflow:hidden}
+.sb{width:220px;background:#0f172a;color:#e2e8f0;display:flex;flex-direction:column;flex-shrink:0}.sb .logo{padding:14px 18px;font-size:16px;font-weight:700;border-bottom:1px solid #1e293b}.sb nav{flex:1;padding:6px}
+.ni{display:block;padding:8px 14px;border-radius:6px;font-size:12px;color:#94a3b8;cursor:pointer;margin:1px 0}.ni:hover{background:#1e293b;color:#e2e8f0}.ni.a{background:#1e40af;color:#fff}
+.ng{font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:1px;padding:10px 14px 3px}
+.ub{padding:10px 14px;border-top:1px solid #1e293b;font-size:11px}
+.mn{flex:1;display:flex;flex-direction:column;overflow:hidden}.hd{background:#fff;border-bottom:1px solid #e2e8f0;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}.hd .t{font-size:16px;font-weight:700}.ct{flex:1;overflow-y:auto;padding:20px}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.st{padding:14px;border-radius:8px;color:#fff}.st .v{font-size:24px;font-weight:800}.st .l{font-size:10px;opacity:.85;margin-top:2px}
+.cd{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:16px;margin-bottom:14px}.cd h3{font-size:14px;font-weight:600;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:12px}th{background:#f8fafc;padding:8px 10px;text-align:left;font-weight:600;color:#64748b;border-bottom:2px solid #e2e8f0}td{padding:8px 10px;border-bottom:1px solid #f1f5f9}
+.b{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500}.bg{background:#dcfce7;color:#166534}.by{background:#fef9c3;color:#854d0e}.br{background:#fee2e2;color:#991b1b}.bb{background:#dbeafe;color:#1e40af}
+.btn{padding:5px 12px;border-radius:5px;font-size:11px;font-weight:500;cursor:pointer;border:none;display:inline-block}.btn-b{background:#2563eb;color:#fff}.btn-g{background:#16a34a;color:#fff}.btn-r{background:#dc2626;color:#fff}.btn-gr{background:#e2e8f0;color:#475151}
+.fg{margin-bottom:10px}.fg label{display:block;font-size:11px;font-weight:500;color:#64748b;margin-bottom:3px}.fg input{width:100%;padding:7px 10px;border:1px solid #d1d5db;border-radius:5px;font-size:12px}
+.pg{display:none}.pg.a{display:block}
+.al{padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:14px}.al-y{background:#fef9c3;border:1px solid #fde68a;color:#854d0e}
+.modal-o{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:200}.modal-o.sh{display:flex}
+.modal{background:#fff;border-radius:12px;padding:24px;max-width:420px;width:90%;box-shadow:0 8px 30px rgba(0,0,0,.2)}
+</style>
+</head>
+<body>
+<div class="sb">
+<div class="logo">🏥 HMS Healthcare</div>
+<nav>
+<a class="ni a" onclick="sp('dash')">💰 Cashier Dashboard</a>
+<div class="ng">Session</div>
+<a class="ni" onclick="sp('session')">🔓 Session Management</a>
+<a class="ni" onclick="sp('daily')">📊 Daily Report</a>
+<div class="ng">Account</div>
+<a class="ni">🔔 Notifications</a>
+<a class="ni">⚙️ Sessions</a>
+</nav>
+<div class="ub"><div style="font-weight:600">💰 Cashier Ahmed</div><div style="color:#64748b">Cashier · Session: Open</div></div>
+</div>
+<div class="mn">
+<div class="hd"><div class="t" id="pt">Cashier Dashboard</div><div style="display:flex;gap:8px;align-items:center"><span class="b bg">Session Open</span><span style="font-size:12px;color:#64748b">Float: $500</span></div></div>
+<div class="ct">
+
+<div class="pg a" id="p-dash">
+<div class="al al-y">⚠ <b>Rule:</b> Patient must pay here BEFORE collecting medicines from pharmacy</div>
+<div class="sts">
+<div class="st" style="background:#16a34a"><div class="v">$2,450</div><div class="l">Collected Today</div></div>
+<div class="st" style="background:#eab308"><div class="v">8</div><div class="l">Pending Invoices</div></div>
+<div class="st" style="background:#2563eb"><div class="v">12</div><div class="l">Transactions</div></div>
+<div class="st" style="background:#7c3aed"><div class="v">$500</div><div class="l">Cash Float</div></div>
+</div>
+<div class="cd"><h3>🔍 Search Patient</h3><div class="fg"><input placeholder="Search by name, patient ID, or phone..." value="Amina Begum" style="font-size:14px;padding:10px"></div></div>
+<div class="cd" style="border-left:3px solid #f97316">
+<h3>Patient: Amina Begum (PAT-0005)</h3>
+<table><thead><tr><th>Invoice</th><th>Date</th><th>Items</th><th>Total</th><th>Paid</th><th>Balance</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td style="font-family:monospace">HMS-INV-00012</td><td>2026-04-02</td><td>Consultation (Simple) + Lab CBC</td><td>$850</td><td>$0</td><td style="color:#dc2626;font-weight:700">$850.00</td><td><button class="btn btn-g" onclick="document.getElementById('payM').classList.add('sh')">Collect Payment</button></td></tr>
+<tr><td style="font-family:monospace">HMS-INV-00008</td><td>2026-03-28</td><td>Consultation (Moderate)</td><td>$450</td><td>$200</td><td style="color:#f97316;font-weight:700">$250.00</td><td><button class="btn btn-g">Collect Payment</button></td></tr>
+</tbody></table>
+</div>
+<div class="cd"><h3>Recent Transactions</h3>
+<table><thead><tr><th>Time</th><th>Invoice</th><th>Patient</th><th>Amount</th><th>Method</th></tr></thead>
+<tbody>
+<tr><td>14:20</td><td>HMS-INV-00011</td><td>Julia Santos</td><td style="color:#16a34a;font-weight:600">$600.00</td><td>Cash</td></tr>
+<tr><td>13:45</td><td>HMS-INV-00010</td><td>Kevin O'Brien</td><td style="color:#16a34a;font-weight:600">$350.00</td><td>Card</td></tr>
+<tr><td>11:30</td><td>HMS-INV-00009</td><td>Layla Ahmed</td><td style="color:#16a34a;font-weight:600">$1,200.00</td><td>Insurance</td></tr>
+</tbody></table></div>
+</div>
+
+<div class="pg" id="p-session">
+<div class="cd"><h3>Current Session</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
+<div><span style="color:#64748b">Opened:</span> 2026-04-02 08:00 AM</div>
+<div><span style="color:#64748b">Opening Float:</span> $500.00</div>
+<div><span style="color:#64748b">Transactions:</span> 12</div>
+<div><span style="color:#64748b">Total Collected:</span> <b style="color:#16a34a">$2,450.00</b></div>
+</div>
+<div style="margin-top:16px;display:flex;gap:8px"><button class="btn btn-r">Close Session</button></div>
+</div>
+<div class="cd"><h3>Close Session Form</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div class="fg"><label>Cash Count</label><input type="number" placeholder="Count cash in drawer..."></div>
+<div class="fg"><label>Expected Cash</label><input value="$1,750.00" disabled style="background:#f8fafc"></div>
+</div>
+<button class="btn btn-r">Confirm Close & Reconcile</button>
+</div>
+</div>
+
+<div class="pg" id="p-daily">
+<div class="cd"><h3>Daily Collection Report — 2026-04-02</h3>
+<div class="sts">
+<div class="st" style="background:#16a34a"><div class="v">$2,450</div><div class="l">Total Collected</div></div>
+<div class="st" style="background:#dc2626"><div class="v">$150</div><div class="l">Refunds</div></div>
+<div class="st" style="background:#2563eb"><div class="v">$2,300</div><div class="l">Net</div></div>
+<div class="st" style="background:#7c3aed"><div class="v">12</div><div class="l">Transactions</div></div>
+</div>
+<table><thead><tr><th>Method</th><th>Count</th><th>Amount</th></tr></thead>
+<tbody><tr><td>💵 Cash</td><td>7</td><td>$1,250.00</td></tr><tr><td>💳 Card</td><td>3</td><td>$650.00</td></tr><tr><td>🏥 Insurance</td><td>2</td><td>$550.00</td></tr></tbody></table>
+</div>
+</div>
+
+</div></div>
+
+<div class="modal-o" id="payM">
+<div class="modal">
+<h3 style="font-size:16px;margin-bottom:4px">Collect Payment</h3>
+<p style="font-size:12px;color:#64748b;margin-bottom:14px">HMS-INV-00012 · Amina Begum · Balance: $850.00</p>
+<div class="fg"><label>Amount ($)</label><input type="number" value="850.00" style="font-size:16px;font-weight:600"></div>
+<div class="fg"><label>Payment Method</label></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:14px">
+<div style="padding:10px;border:2px solid #2563eb;border-radius:6px;text-align:center;font-size:12px;font-weight:600;background:#eff6ff;cursor:pointer">💵 Cash</div>
+<div style="padding:10px;border:1px solid #d1d5db;border-radius:6px;text-align:center;font-size:12px;cursor:pointer">💳 Card</div>
+<div style="padding:10px;border:1px solid #d1d5db;border-radius:6px;text-align:center;font-size:12px;cursor:pointer">🏥 Insurance</div>
+<div style="padding:10px;border:1px solid #d1d5db;border-radius:6px;text-align:center;font-size:12px;cursor:pointer">🌐 Online</div>
+</div>
+<div style="display:flex;gap:8px;justify-content:flex-end">
+<button class="btn btn-gr" onclick="document.getElementById('payM').classList.remove('sh')">Cancel</button>
+<button class="btn btn-g" onclick="document.getElementById('payM').classList.remove('sh');document.getElementById('rcpt').classList.add('sh')">Confirm & Print Receipt</button>
+</div>
+</div>
+</div>
+
+<div class="modal-o" id="rcpt">
+<div class="modal" style="max-width:350px;font-size:13px">
+<div style="text-align:center;border-bottom:1px dashed #d1d5db;padding-bottom:12px;margin-bottom:12px"><div style="font-size:18px;font-weight:700">🏥 HMS Healthcare</div><div style="color:#64748b;font-size:12px">Payment Receipt</div></div>
+<div style="display:flex;justify-content:space-between;margin:4px 0"><span style="color:#64748b">Invoice:</span><span style="font-family:monospace">HMS-INV-00012</span></div>
+<div style="display:flex;justify-content:space-between;margin:4px 0"><span style="color:#64748b">Patient:</span><span>Amina Begum</span></div>
+<div style="display:flex;justify-content:space-between;margin:4px 0"><span style="color:#64748b">Date:</span><span>2026-04-02 02:35 PM</span></div>
+<div style="border-top:1px dashed #d1d5db;border-bottom:1px dashed #d1d5db;margin:12px 0;padding:8px 0">
+<div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700"><span>Amount Paid:</span><span style="color:#16a34a">$850.00</span></div>
+<div style="display:flex;justify-content:space-between;margin-top:4px"><span style="color:#64748b">Method:</span><span>Cash</span></div>
+</div>
+<div style="text-align:center;color:#64748b;font-size:12px">Thank you for your payment</div>
+<div style="display:flex;gap:8px;justify-content:center;margin-top:16px">
+<button class="btn btn-gr" onclick="document.getElementById('rcpt').classList.remove('sh')">Close</button>
+<button class="btn btn-b">🖨️ Print</button>
+</div>
+</div>
+</div>
+
+<script>
+const t={dash:'Cashier Dashboard',session:'Session Management',daily:'Daily Report'}
+function sp(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('a'));document.querySelectorAll('.ni').forEach(n=>n.classList.remove('a'));const p=document.getElementById('p-'+id);if(p)p.classList.add('a');document.getElementById('pt').textContent=t[id]||id;event?.target?.classList?.add('a')}
+</script>
+</body></html>

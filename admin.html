@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HMS — Admin Portal Prototype</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;display:flex;height:100vh;overflow:hidden}
+.sb{width:230px;background:#0f172a;color:#e2e8f0;display:flex;flex-direction:column;flex-shrink:0}
+.sb .logo{padding:14px 18px;font-size:16px;font-weight:700;border-bottom:1px solid #1e293b}
+.sb nav{flex:1;overflow-y:auto;padding:6px}
+.ni{display:block;padding:8px 14px;border-radius:6px;font-size:12px;color:#94a3b8;cursor:pointer;margin:1px 0}
+.ni:hover{background:#1e293b;color:#e2e8f0}.ni.a{background:#1e40af;color:#fff}
+.ng{font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:1px;padding:10px 14px 3px;margin-top:4px}
+.ub{padding:10px 14px;border-top:1px solid #1e293b;font-size:11px}
+.mn{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.hd{background:#fff;border-bottom:1px solid #e2e8f0;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.hd .t{font-size:16px;font-weight:700}
+.ct{flex:1;overflow-y:auto;padding:20px}
+.sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.st{padding:14px;border-radius:8px;color:#fff}.st .v{font-size:24px;font-weight:800}.st .l{font-size:10px;opacity:.85;margin-top:2px}
+.cd{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:16px;margin-bottom:14px}
+.cd h3{font-size:14px;font-weight:600;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#f8fafc;padding:8px 10px;text-align:left;font-weight:600;color:#64748b;border-bottom:2px solid #e2e8f0}
+td{padding:8px 10px;border-bottom:1px solid #f1f5f9}tr:hover td{background:#f8fafc}
+.b{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500}
+.bg{background:#dcfce7;color:#166534}.by{background:#fef9c3;color:#854d0e}.br{background:#fee2e2;color:#991b1b}
+.bb{background:#dbeafe;color:#1e40af}.bp{background:#f3e8ff;color:#7c3aed}.bo{background:#ffedd5;color:#c2410c}
+.btn{padding:5px 12px;border-radius:5px;font-size:11px;font-weight:500;cursor:pointer;border:none;display:inline-block}
+.btn-b{background:#2563eb;color:#fff}.btn-g{background:#16a34a;color:#fff}.btn-r{background:#dc2626;color:#fff}.btn-gr{background:#e2e8f0;color:#475151}
+.fg{margin-bottom:10px}.fg label{display:block;font-size:11px;font-weight:500;color:#64748b;margin-bottom:3px}
+.fg input,.fg select{width:100%;padding:7px 10px;border:1px solid #d1d5db;border-radius:5px;font-size:12px}
+.pg{display:none}.pg.a{display:block}
+.perm-grid{display:grid;grid-template-columns:180px repeat(4,60px);gap:2px;font-size:11px;align-items:center}
+.perm-grid .h{font-weight:600;color:#64748b;text-align:center;padding:6px}
+.perm-grid .c{text-align:center;padding:6px}
+.perm-grid .on{background:#dcfce7;border-radius:4px;cursor:pointer}.perm-grid .off{background:#f1f5f9;border-radius:4px;cursor:pointer;color:#cbd5e1}
+</style>
+</head>
+<body>
+<div class="sb">
+<div class="logo">🏥 HMS Healthcare</div>
+<nav>
+<a class="ni a" onclick="sp('dash')">📊 Dashboard</a>
+<div class="ng">Management</div>
+<a class="ni" onclick="sp('patients')">👥 Patients</a>
+<a class="ni" onclick="sp('doctors')">👨‍⚕️ Doctors</a>
+<a class="ni" onclick="sp('staff')">🧑‍💼 Staff</a>
+<a class="ni" onclick="sp('appts')">📅 Appointments</a>
+<a class="ni" onclick="sp('cases')">📁 Cases</a>
+<a class="ni" onclick="sp('diagnoses')">🔍 ICD-10 Codes</a>
+<div class="ng">Analytics</div>
+<a class="ni" onclick="sp('analytics')">📈 System Analytics</a>
+<a class="ni" onclick="sp('revenue')">💰 Revenue Reports</a>
+<a class="ni" onclick="sp('labanalytics')">🧪 Lab Analytics</a>
+<a class="ni" onclick="sp('pharmalytics')">💊 Pharmacy Reports</a>
+<div class="ng">Settings</div>
+<a class="ni" onclick="sp('settings')">⚙️ General</a>
+<a class="ni" onclick="sp('permissions')">🔐 Roles & Permissions</a>
+<a class="ni" onclick="sp('billing')">💳 Billing Settings</a>
+<a class="ni" onclick="sp('templates')">📧 Email Templates</a>
+<a class="ni" onclick="sp('audit')">📝 Audit Log</a>
+<a class="ni" onclick="sp('backup')">💾 Backup & Restore</a>
+<a class="ni" onclick="sp('import')">📤 Import / Export</a>
+</nav>
+<div class="ub"><div style="font-weight:600">👤 System Admin</div><div style="color:#64748b">Administrator</div></div>
+</div>
+<div class="mn">
+<div class="hd"><div class="t" id="pt">Dashboard</div><div style="font-size:12px;color:#64748b">Admin · Full Access (Primary: Oversight & Reports)</div></div>
+<div class="ct">
+
+<div class="pg a" id="p-dash">
+<div class="sts">
+<div class="st" style="background:#2563eb"><div class="v">156</div><div class="l">Total Patients</div></div>
+<div class="st" style="background:#16a34a"><div class="v">10</div><div class="l">Doctors</div></div>
+<div class="st" style="background:#eab308"><div class="v">8</div><div class="l">Today's Appts</div></div>
+<div class="st" style="background:#f97316"><div class="v">4</div><div class="l">Pending Approval</div></div>
+<div class="st" style="background:#dc2626"><div class="v">3</div><div class="l">Open Cases</div></div>
+<div class="st" style="background:#7c3aed"><div class="v">65</div><div class="l">Total Cases</div></div>
+<div class="st" style="background:#6366f1"><div class="v">5</div><div class="l">Lab Orders Today</div></div>
+<div class="st" style="background:#14b8a6"><div class="v">7</div><div class="l">Unpaid Invoices</div></div>
+</div>
+<div class="cd"><h3>Recent Appointments</h3>
+<table><thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Amina Begum</td><td>Dr. Aisha Rahman</td><td>2026-04-02</td><td><span class="b bg">completed</span></td></tr>
+<tr><td>David Kim</td><td>Dr. Carlos Mendez</td><td>2026-04-02</td><td><span class="b bp">in consultation</span></td></tr>
+<tr><td>Fatima Noor</td><td>Dr. Fatima Al-Sayed</td><td>2026-04-02</td><td><span class="b by">checked in</span></td></tr>
+</tbody></table></div>
+</div>
+
+<div class="pg" id="p-patients"><div class="cd"><h3>Patient Management</h3><div style="display:flex;justify-content:space-between;margin-bottom:10px"><input placeholder="Search patients..." style="padding:6px 10px;border:1px solid #d1d5db;border-radius:5px;font-size:12px;width:250px"><button class="btn btn-b">+ Add Patient</button></div>
+<table><thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Gender</th><th>Blood</th><th>Actions</th></tr></thead>
+<tbody><tr><td>PAT-0005</td><td>Amina Begum</td><td>amina@email.com</td><td>Female</td><td>A-</td><td><span style="color:#2563eb;font-size:11px;cursor:pointer">Edit</span> <span style="color:#dc2626;font-size:11px;cursor:pointer">Delete</span></td></tr>
+<tr><td>PAT-0006</td><td>David Kim</td><td>david@email.com</td><td>Male</td><td>B-</td><td><span style="color:#2563eb;font-size:11px;cursor:pointer">Edit</span> <span style="color:#dc2626;font-size:11px;cursor:pointer">Delete</span></td></tr></tbody></table></div></div>
+
+<div class="pg" id="p-doctors"><div class="cd"><h3>Doctor Management</h3><div style="display:flex;justify-content:space-between;margin-bottom:10px"><input placeholder="Search doctors..." style="padding:6px 10px;border:1px solid #d1d5db;border-radius:5px;font-size:12px;width:250px"><button class="btn btn-b">+ Add Doctor</button></div>
+<table><thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Fee</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody><tr><td>DOC-0002</td><td>Dr. Aisha Rahman</td><td>Pediatrics</td><td>$450</td><td><span class="b bg">active</span></td><td><span style="color:#2563eb;font-size:11px;cursor:pointer">Edit</span></td></tr>
+<tr><td>DOC-0003</td><td>Dr. Carlos Mendez</td><td>Orthopedics</td><td>$800</td><td><span class="b bg">active</span></td><td><span style="color:#2563eb;font-size:11px;cursor:pointer">Edit</span></td></tr></tbody></table></div></div>
+
+<div class="pg" id="p-staff"><div class="cd"><h3>Staff Management</h3><table><thead><tr><th>ID</th><th>Name</th><th>Department</th><th>Position</th><th>Actions</th></tr></thead><tbody><tr><td>STF-0011</td><td>Nurse Sarah</td><td>Nursing</td><td>Head Nurse</td><td><span style="color:#2563eb;font-size:11px;cursor:pointer">Edit</span></td></tr></tbody></table></div></div>
+
+<div class="pg" id="p-appts"><div class="cd"><h3>All Appointments (Backup Access)</h3><p style="font-size:11px;color:#f97316;margin-bottom:10px">⚠ Admin has full access as backup. Primary: Receptionist/Doctor</p>
+<table><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody><tr><td>APT-00047</td><td>Fatima Noor</td><td>Dr. Fatima Al-Sayed</td><td>2026-04-02</td><td><span class="b by">checked in</span></td><td><span style="color:#16a34a;font-size:11px;cursor:pointer">Approve</span></td></tr></tbody></table></div></div>
+
+<div class="pg" id="p-cases"><div class="cd"><h3>All Cases (Read-Only)</h3><table><thead><tr><th>Case</th><th>Patient</th><th>Doctor</th><th>Diagnosis</th><th>Status</th></tr></thead>
+<tbody><tr><td>CASE-00012</td><td>Amina Begum</td><td>Dr. Aisha Rahman</td><td>Hypertension (I10)</td><td><span class="b by">in treatment</span></td></tr></tbody></table></div></div>
+
+<div class="pg" id="p-diagnoses"><div class="cd"><h3>ICD-10 Diagnosis Codes</h3><div style="display:flex;gap:8px;margin-bottom:10px"><input placeholder="Search by code or name..." style="flex:1;padding:6px 10px;border:1px solid #d1d5db;border-radius:5px;font-size:12px"><button class="btn btn-b">+ Add</button><label class="btn btn-gr" style="cursor:pointer">Import CSV</label></div>
+<table><thead><tr><th>Code</th><th>Name</th><th>Category</th><th>Actions</th></tr></thead>
+<tbody><tr><td style="font-family:monospace">I10</td><td>Essential Hypertension</td><td>Circulatory</td><td><span style="color:#2563eb;font-size:11px;cursor:pointer">Edit</span></td></tr>
+<tr><td style="font-family:monospace">E11</td><td>Type 2 Diabetes Mellitus</td><td>Endocrine</td><td><span style="color:#2563eb;font-size:11px;cursor:pointer">Edit</span></td></tr>
+<tr><td style="font-family:monospace">J06.9</td><td>Acute Upper Respiratory Infection</td><td>Respiratory</td><td><span style="color:#2563eb;font-size:11px;cursor:pointer">Edit</span></td></tr></tbody></table></div></div>
+
+<div class="pg" id="p-analytics"><div class="cd"><h3>System Analytics</h3><p style="color:#64748b;font-size:12px">12-month appointment trends, status distribution, top specializations, revenue tracking, patient registration trends</p><div style="background:#f8fafc;border-radius:8px;padding:40px;text-align:center;color:#94a3b8;margin-top:12px">📊 Charts would render here (bar charts, pie charts, trend lines)</div></div></div>
+
+<div class="pg" id="p-revenue"><div class="cd"><h3>Revenue Reports</h3>
+<div style="display:flex;gap:8px;margin-bottom:12px"><button class="btn btn-b">By Doctor</button><button class="btn btn-gr">By Department</button><div style="margin-left:auto;display:flex;gap:6px"><input type="date" style="padding:5px;border:1px solid #d1d5db;border-radius:4px;font-size:11px"><span style="align-self:center;font-size:11px;color:#64748b">to</span><input type="date" style="padding:5px;border:1px solid #d1d5db;border-radius:4px;font-size:11px"></div></div>
+<table><thead><tr><th>Doctor</th><th>Specialization</th><th>Appointments</th><th>Consultation Rev</th><th>Lab Rev</th><th>Total</th></tr></thead>
+<tbody><tr><td>Dr. Aisha Rahman</td><td>Pediatrics</td><td>42</td><td>$18,900</td><td>$3,200</td><td style="font-weight:700">$22,100</td></tr>
+<tr><td>Dr. Carlos Mendez</td><td>Orthopedics</td><td>28</td><td>$22,400</td><td>$1,800</td><td style="font-weight:700">$24,200</td></tr></tbody></table></div></div>
+
+<div class="pg" id="p-labanalytics"><div class="cd"><h3>Lab Analytics</h3><p style="color:#64748b;font-size:12px">Orders this month, revenue, turnaround by category, top tests, technician workload</p><div style="background:#f8fafc;border-radius:8px;padding:40px;text-align:center;color:#94a3b8;margin-top:12px">📊 Lab analytics charts</div></div></div>
+
+<div class="pg" id="p-pharmalytics"><div class="cd"><h3>Pharmacy Reports</h3><div style="display:flex;gap:6px;margin-bottom:12px"><button class="btn btn-b">Daily Sales</button><button class="btn btn-gr">Medicine Sales</button><button class="btn btn-gr">Stock</button><button class="btn btn-gr">Expiry</button><button class="btn btn-gr">Profit</button></div><div style="background:#f8fafc;border-radius:8px;padding:40px;text-align:center;color:#94a3b8">📊 Pharmacy report data</div></div></div>
+
+<div class="pg" id="p-permissions"><div class="cd"><h3>Role & Permission Matrix</h3><p style="font-size:11px;color:#64748b;margin-bottom:12px">Click any cell to toggle. 9 roles × 26 features</p>
+<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+<button class="btn btn-b">Admin</button><button class="btn btn-gr">Doctor</button><button class="btn btn-gr">Receptionist</button><button class="btn btn-gr">Nurse</button><button class="btn btn-gr">Patient</button><button class="btn btn-gr">Lab Tech</button><button class="btn btn-gr">Pharmacist</button><button class="btn btn-gr">Cashier</button><button class="btn btn-gr">Finance</button>
+</div>
+<div class="perm-grid">
+<div class="h">Feature</div><div class="h">V</div><div class="h">C</div><div class="h">E</div><div class="h">D</div>
+<div>Patient Management</div><div class="c on">✓</div><div class="c on">✓</div><div class="c on">✓</div><div class="c on">✓</div>
+<div>Appointments</div><div class="c on">✓</div><div class="c on">✓</div><div class="c on">✓</div><div class="c on">✓</div>
+<div>Medical Cases</div><div class="c on">✓</div><div class="c off">—</div><div class="c off">—</div><div class="c off">—</div>
+<div>Lab Catalog</div><div class="c on">✓</div><div class="c on">✓</div><div class="c on">✓</div><div class="c on">✓</div>
+<div>Finance Reports</div><div class="c on">✓</div><div class="c off">—</div><div class="c off">—</div><div class="c off">—</div>
+<div>System Settings</div><div class="c on">✓</div><div class="c on">✓</div><div class="c on">✓</div><div class="c on">✓</div>
+</div></div></div>
+
+<div class="pg" id="p-billing"><div class="cd"><h3>Billing & Payment Settings</h3><p style="font-size:12px;color:#64748b;margin-bottom:16px">Control how patients pay their bills</p>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="padding:14px;border:2px solid #2563eb;border-radius:8px;background:#eff6ff;cursor:pointer"><div style="display:flex;justify-content:space-between"><b>Cashier Counter Only</b><span style="color:#2563eb">✓ Active</span></div><div style="font-size:11px;color:#64748b;margin-top:4px">Patients must pay at the hospital cashier counter</div></div>
+<div style="padding:14px;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer"><b>Online Payment Only</b><div style="font-size:11px;color:#64748b;margin-top:4px">Patients pay via Stripe/PayPal gateway</div></div>
+<div style="padding:14px;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer"><b>Both (Cashier + Online)</b><div style="font-size:11px;color:#64748b;margin-top:4px">Patients can choose either method</div></div>
+</div></div></div>
+
+<div class="pg" id="p-settings"><div class="cd"><h3>System Settings</h3><p style="color:#64748b;font-size:12px">Hospital info, specializations, address, contact, languages</p></div></div>
+<div class="pg" id="p-templates"><div class="cd"><h3>Email & SMS Templates</h3><p style="color:#64748b;font-size:12px">21 dynamic templates with {{variable}} placeholders</p></div></div>
+<div class="pg" id="p-audit"><div class="cd"><h3>Audit Log</h3>
+<table><thead><tr><th>User</th><th>Action</th><th>Description</th><th>IP</th><th>Date</th></tr></thead>
+<tbody><tr><td>Admin</td><td><span class="b bb">created</span></td><td>Created new patient record</td><td>127.0.0.1</td><td>2026-04-02 14:30</td></tr>
+<tr><td>Dr. Aisha</td><td><span class="b bg">updated</span></td><td>Prescription dispensed</td><td>127.0.0.1</td><td>2026-04-02 13:15</td></tr>
+<tr><td>System</td><td><span class="b bp">backup</span></td><td>Scheduled backup created</td><td>—</td><td>2026-04-02 02:00</td></tr></tbody></table></div></div>
+<div class="pg" id="p-backup"><div class="cd"><h3>Backup & Restore</h3><p style="font-size:11px;color:#16a34a;margin-bottom:10px">✅ Auto backup: Daily at 2:00 AM (30-day retention)</p><button class="btn btn-b" style="margin-bottom:12px">Create Backup Now</button>
+<table><thead><tr><th>File</th><th>Size</th><th>Date</th><th>Actions</th></tr></thead>
+<tbody><tr><td>auto_backup_2026-04-02.sql</td><td>2.4 MB</td><td>2026-04-02 02:00</td><td><span style="color:#2563eb;font-size:11px;cursor:pointer">Download</span> <span style="color:#16a34a;font-size:11px;cursor:pointer">Restore</span> <span style="color:#dc2626;font-size:11px;cursor:pointer">Delete</span></td></tr></tbody></table></div></div>
+<div class="pg" id="p-import"><div class="cd"><h3>Import / Export</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div style="border:1px solid #e2e8f0;border-radius:8px;padding:14px"><b style="font-size:13px">Patients</b><div style="margin-top:8px"><button class="btn btn-b" style="margin-right:4px">Export CSV</button><button class="btn btn-gr">Import CSV</button></div></div>
+<div style="border:1px solid #e2e8f0;border-radius:8px;padding:14px"><b style="font-size:13px">Doctors</b><div style="margin-top:8px"><button class="btn btn-b" style="margin-right:4px">Export CSV</button><button class="btn btn-gr">Import CSV</button></div></div>
+<div style="border:1px solid #e2e8f0;border-radius:8px;padding:14px"><b style="font-size:13px">Lab Catalog</b><div style="margin-top:8px"><button class="btn btn-b" style="margin-right:4px">Export CSV</button><button class="btn btn-gr">Import CSV</button></div></div>
+<div style="border:1px solid #e2e8f0;border-radius:8px;padding:14px"><b style="font-size:13px">Medicines</b><div style="margin-top:8px"><button class="btn btn-b" style="margin-right:4px">Export CSV</button><button class="btn btn-gr">Import CSV</button></div></div>
+</div></div></div>
+
+</div></div>
+<script>
+const t={dash:'Dashboard',patients:'Patient Management',doctors:'Doctor Management',staff:'Staff Management',appts:'All Appointments',cases:'All Cases (Read-Only)',diagnoses:'ICD-10 Diagnosis Codes',analytics:'System Analytics',revenue:'Revenue Reports',labanalytics:'Lab Analytics',pharmalytics:'Pharmacy Reports',settings:'System Settings',permissions:'Roles & Permissions',billing:'Billing Settings',templates:'Email & SMS Templates',audit:'Audit Log',backup:'Backup & Restore',import:'Import / Export'}
+function sp(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('a'));document.querySelectorAll('.ni').forEach(n=>n.classList.remove('a'));const p=document.getElementById('p-'+id);if(p)p.classList.add('a');document.getElementById('pt').textContent=t[id]||id;event?.target?.classList?.add('a')}
+</script>
+</body></html>

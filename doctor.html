@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HMS — Doctor Portal Prototype</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',-apple-system,sans-serif;background:#f1f5f9;color:#1e293b;display:flex;height:100vh;overflow:hidden}
+/* Sidebar */
+.sidebar{width:240px;background:#0f172a;color:#e2e8f0;display:flex;flex-direction:column;flex-shrink:0}
+.sidebar .logo{padding:16px 20px;font-size:18px;font-weight:700;border-bottom:1px solid #1e293b;display:flex;align-items:center;gap:8px}
+.sidebar nav{flex:1;overflow-y:auto;padding:8px}
+.sidebar .nav-item{display:block;padding:9px 16px;border-radius:6px;font-size:13px;color:#94a3b8;cursor:pointer;margin:2px 0;text-decoration:none;transition:all .15s}
+.sidebar .nav-item:hover{background:#1e293b;color:#e2e8f0}
+.sidebar .nav-item.active{background:#1e40af;color:#fff}
+.sidebar .nav-group{font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:1px;padding:12px 16px 4px;margin-top:4px}
+.sidebar .user-box{padding:12px 16px;border-top:1px solid #1e293b;font-size:12px}
+.sidebar .user-box .name{font-weight:600;color:#e2e8f0}.sidebar .user-box .role{color:#64748b;font-size:11px}
+/* Main */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.header{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;justify-content:space-between;align-items:center}
+.header .title{font-size:18px;font-weight:700}
+.header .actions{display:flex;gap:8px;align-items:center}
+.header .actions .bell{position:relative;cursor:pointer;font-size:18px}
+.header .actions .bell .dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#dc2626;border-radius:50%}
+.content{flex:1;overflow-y:auto;padding:24px}
+/* Components */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stat{padding:16px;border-radius:10px;color:#fff}.stat .v{font-size:28px;font-weight:800}.stat .l{font-size:11px;opacity:.85;margin-top:2px}
+.card{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:20px;margin-bottom:16px}
+.card h3{font-size:15px;font-weight:600;margin-bottom:12px;color:#1e293b}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#f8fafc;padding:10px 12px;text-align:left;font-weight:600;color:#64748b;border-bottom:2px solid #e2e8f0}
+td{padding:10px 12px;border-bottom:1px solid #f1f5f9}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:500}
+.bg{background:#dcfce7;color:#166534}.by{background:#fef9c3;color:#854d0e}.br{background:#fee2e2;color:#991b1b}
+.bb{background:#dbeafe;color:#1e40af}.bp{background:#f3e8ff;color:#7c3aed}.bo{background:#ffedd5;color:#c2410c}
+.btn{display:inline-block;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:none}
+.btn-blue{background:#2563eb;color:#fff}.btn-green{background:#16a34a;color:#fff}
+.btn-red{background:#dc2626;color:#fff}.btn-gray{background:#e2e8f0;color:#475151}
+.btn-purple{background:#7c3aed;color:#fff}
+.btn-sm{padding:3px 10px;font-size:11px}
+.fg{margin-bottom:12px}.fg label{display:block;font-size:12px;font-weight:500;color:#64748b;margin-bottom:4px}
+.fg input,.fg select,.fg textarea{width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px}
+.page{display:none}.page.active{display:block}
+.two-col{display:grid;grid-template-columns:240px 1fr;gap:20px}
+.sidebar-panel{background:#f8fafc;border-radius:10px;padding:16px;font-size:12px;border:1px solid #e2e8f0}
+.sidebar-panel .tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;margin:2px}
+.tag-red{background:#fee2e2;color:#991b1b}.tag-orange{background:#ffedd5;color:#c2410c}.tag-blue{background:#dbeafe;color:#1e40af}
+.rx-row{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;margin-bottom:6px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 30px;gap:8px;align-items:center;font-size:12px}
+.complexity{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0}
+.complexity div{padding:12px;border:2px solid #e2e8f0;border-radius:8px;text-align:center;cursor:pointer;transition:all .15s}
+.complexity div:hover{border-color:#93c5fd}
+.complexity div.sel{border-color:#2563eb;background:#eff6ff}
+.slot{display:inline-block;padding:6px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;margin:3px;cursor:pointer}
+.slot.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.slot.taken{background:#fee2e2;color:#999;text-decoration:line-through}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-cell{min-height:70px;border:1px solid #e2e8f0;border-radius:6px;padding:4px;font-size:11px;cursor:pointer}
+.cal-cell:hover{background:#eff6ff}
+.cal-cell .day{font-weight:600;color:#1e293b}
+.cal-cell .ev{padding:2px 4px;border-radius:3px;font-size:9px;margin-top:2px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:200;display:none}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:12px;padding:24px;max-width:440px;width:90%;box-shadow:0 8px 30px rgba(0,0,0,.2)}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+<div class="logo">🏥 HMS Healthcare</div>
+<nav>
+<a class="nav-item active" onclick="showPage('dashboard')">📊 Dashboard</a>
+<div class="nav-group">Appointments</div>
+<a class="nav-item" onclick="showPage('queue')">📋 Today's Queue</a>
+<a class="nav-item" onclick="showPage('appointments')">📅 Appointments</a>
+<a class="nav-item" onclick="showPage('calendar')">🗓️ My Calendar</a>
+<div class="nav-group">Clinical</div>
+<a class="nav-item" onclick="showPage('writecase')">✍️ Write Case</a>
+<a class="nav-item" onclick="showPage('cases')">📁 My Cases</a>
+<a class="nav-item" onclick="showPage('laborders')">🧪 Lab Orders</a>
+<div class="nav-group">Schedule</div>
+<a class="nav-item" onclick="showPage('schedule')">⏰ My Schedule</a>
+<a class="nav-item" onclick="showPage('unavailability')">🚫 Unavailability</a>
+<div class="nav-group">Analytics</div>
+<a class="nav-item" onclick="showPage('analytics')">📈 Performance</a>
+<div class="nav-group">Account</div>
+<a class="nav-item" onclick="showPage('notifications')">🔔 Notifications</a>
+<a class="nav-item">⚙️ Sessions</a>
+</nav>
+<div class="user-box">
+<div class="name">👨‍⚕️ Dr. Aisha Rahman</div>
+<div class="role">Pediatrics · Doctor</div>
+</div>
+</div>
+
+<!-- Main Area -->
+<div class="main">
+<div class="header">
+<div class="title" id="pageTitle">Dashboard</div>
+<div class="actions">
+<span class="bell" onclick="showPage('notifications')">🔔<span class="dot"></span></span>
+<span style="font-size:13px;color:#64748b">Dr. Aisha Rahman</span>
+<span style="width:32px;height:32px;background:#3b82f6;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px">AR</span>
+</div>
+</div>
+<div class="content">
+
+<!-- Dashboard -->
+<div class="page active" id="pg-dashboard">
+<div class="stats">
+<div class="stat" style="background:#eab308"><div class="v">8</div><div class="l">Today's Appointments</div></div>
+<div class="stat" style="background:#f97316"><div class="v">3</div><div class="l">Pending</div></div>
+<div class="stat" style="background:#dc2626"><div class="v">2</div><div class="l">Open Cases</div></div>
+<div class="stat" style="background:#7c3aed"><div class="v">15</div><div class="l">Total Cases</div></div>
+<div class="stat" style="background:#6366f1"><div class="v">4</div><div class="l">Pending Lab</div></div>
+</div>
+<div class="card"><h3>Recent Appointments</h3>
+<table><thead><tr><th>Patient</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td>Amina Begum</td><td>2026-04-02</td><td>09:00</td><td><span class="badge bg">completed</span></td><td><a style="color:#2563eb;font-size:11px;cursor:pointer" onclick="showPage('writecase')">View Case</a></td></tr>
+<tr><td>David Kim</td><td>2026-04-02</td><td>10:00</td><td><span class="badge bp">in consultation</span></td><td><a style="color:#16a34a;font-size:11px;cursor:pointer" onclick="showPage('writecase')">Write Case</a></td></tr>
+<tr><td>Fatima Noor</td><td>2026-04-02</td><td>11:00</td><td><span class="badge by">checked in</span></td><td><a style="color:#7c3aed;font-size:11px;cursor:pointer" onclick="showPage('queue')">Start</a></td></tr>
+<tr><td>George Thompson</td><td>2026-04-02</td><td>11:30</td><td><span class="badge by">checked in</span></td><td><a style="color:#7c3aed;font-size:11px;cursor:pointer" onclick="showPage('queue')">Start</a></td></tr>
+<tr><td>Hannah Lee</td><td>2026-04-05</td><td>09:00</td><td><span class="badge bb">approved</span></td><td></td></tr>
+</tbody></table>
+</div>
+</div>
+
+<!-- Today's Queue -->
+<div class="page" id="pg-queue">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+<div style="background:#fef9c3;border-radius:8px;padding:14px;text-align:center"><div style="font-size:28px;font-weight:700;color:#854d0e">3</div><div style="font-size:12px;color:#a16207">Waiting</div></div>
+<div style="background:#dbeafe;border-radius:8px;padding:14px;text-align:center"><div style="font-size:28px;font-weight:700;color:#1e40af">1</div><div style="font-size:12px;color:#2563eb">In Consultation</div></div>
+<div style="background:#dcfce7;border-radius:8px;padding:14px;text-align:center"><div style="font-size:28px;font-weight:700;color:#166534">4</div><div style="font-size:12px;color:#16a34a">Completed</div></div>
+</div>
+<div class="card"><h3>My Queue</h3>
+<table><thead><tr><th>Queue</th><th>Patient</th><th>Time</th><th>Status</th><th>Wait</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td><span style="font-size:20px;font-weight:700;color:#7c3aed">Q-002</span></td><td>David Kim</td><td>10:00</td><td><span class="badge bp">in consultation</span></td><td>—</td><td><button class="btn btn-sm btn-green" onclick="showPage('writecase')">Write Case</button> <button class="btn btn-sm btn-green" onclick="document.getElementById('endModal').classList.add('show')">End Consultation</button></td></tr>
+<tr><td><span style="font-size:20px;font-weight:700;color:#2563eb">Q-003</span></td><td>Fatima Noor</td><td>11:00</td><td><span class="badge by">checked in</span></td><td style="color:#dc2626;font-weight:600">32 min</td><td><button class="btn btn-sm btn-blue">Start Consultation</button></td></tr>
+<tr><td><span style="font-size:20px;font-weight:700;color:#2563eb">Q-004</span></td><td>George Thompson</td><td>11:30</td><td><span class="badge by">checked in</span></td><td>18 min</td><td><button class="btn btn-sm btn-blue">Start Consultation</button></td></tr>
+<tr><td><span style="font-size:20px;font-weight:700;color:#16a34a">Q-001</span></td><td>Amina Begum</td><td>09:00</td><td><span class="badge bg">completed</span></td><td>—</td><td><span style="font-size:11px;color:#64748b">Done</span></td></tr>
+</tbody></table>
+</div>
+</div>
+
+<!-- Write Case -->
+<div class="page" id="pg-writecase">
+<div style="background:#fff;border-radius:8px;padding:10px 16px;margin-bottom:16px;font-size:12px;display:flex;gap:20px;flex-wrap:wrap;box-shadow:0 1px 3px rgba(0,0,0,.06)">
+<span><b style="color:#94a3b8">Patient:</b> David Kim</span>
+<span><b style="color:#94a3b8">Appt:</b> APT-00046</span>
+<span><b style="color:#94a3b8">Date:</b> 2026-04-02</span>
+<span class="badge bp">in consultation</span>
+<span style="color:#dc2626;font-weight:600">⏱ 12:34</span>
+<button class="btn btn-sm btn-purple" style="margin-left:auto">🧪 Order Lab Test</button>
+</div>
+<div class="two-col">
+<div class="sidebar-panel">
+<div style="font-weight:600;margin-bottom:10px">📋 Patient Quick Reference</div>
+<div style="margin-bottom:10px"><span style="color:#dc2626;font-size:11px;font-weight:600">⚠️ Allergies</span><br><span class="tag tag-red">Sulfa drugs</span></div>
+<div style="margin-bottom:10px"><span style="color:#64748b;font-size:11px">Health</span><br>Blood: <b>B-</b> · 175cm · 78kg</div>
+<div style="margin-bottom:10px"><span style="color:#ea580c;font-size:11px;font-weight:600">Conditions</span><br><span class="tag tag-orange">Diabetes Type 2</span></div>
+<div style="margin-bottom:10px"><span style="color:#2563eb;font-size:11px;font-weight:600">Medications</span><br><span class="tag tag-blue">Metformin 500mg</span></div>
+<div><span style="color:#7c3aed;font-size:11px;font-weight:600">Recent Vitals</span>
+<div style="background:#fff;border-radius:6px;padding:6px;margin-top:4px;font-size:10px;border:1px solid #e2e8f0">🌡 37.1°C · 💓 130/85 · ♥ 78 · O₂ 97%<br>🩸 Sugar: 145 mg/dL</div>
+</div>
+<div style="margin-top:10px"><span style="color:#16a34a;font-size:11px;font-weight:600">Recent Rx</span>
+<div style="background:#fff;border-radius:6px;padding:6px;margin-top:4px;font-size:10px;border:1px solid #e2e8f0"><span style="font-family:monospace">RX-00015</span> · <span class="badge bg" style="font-size:9px">dispensed</span><br>2026-03-20</div>
+</div>
+</div>
+<div>
+<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+<span style="font-size:12px;color:#64748b">📝 Templates:</span>
+<span style="font-size:11px;padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;background:#fff">General Checkup</span>
+<span style="font-size:11px;padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;background:#fff">Upper Respiratory</span>
+<span style="font-size:11px;padding:4px 10px;border:1px solid #2563eb;border-radius:6px;cursor:pointer;background:#eff6ff">Diabetes F/U</span>
+<span style="font-size:11px;padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;background:#fff">Gastritis</span>
+</div>
+<div class="card" style="margin-bottom:12px">
+<div class="fg"><label>Symptoms</label><div style="border:1px solid #d1d5db;border-radius:6px;padding:8px;min-height:40px;font-size:13px">Increased thirst, frequent urination, fatigue for 2 weeks</div></div>
+<div class="fg"><label>Diagnosis</label><div style="border:1px solid #d1d5db;border-radius:6px;padding:8px;font-size:13px">Type 2 Diabetes Mellitus — poorly controlled (E11)</div></div>
+<div class="fg"><label>Treatment Plan</label><div style="border:1px solid #d1d5db;border-radius:6px;padding:8px;font-size:13px">Increase Metformin to 1000mg BID. Add Glimepiride 1mg. Diet counseling. HbA1c recheck in 3 months.</div></div>
+</div>
+<div class="card" style="margin-bottom:12px">
+<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:13px;font-weight:600">💊 Prescription</span><button class="btn btn-sm btn-gray">+ Custom</button></div>
+<div class="rx-row"><span><b>Metformin 1000mg</b></span><span>Twice daily</span><span>30 days</span><span>Oral</span><span style="color:#dc2626;cursor:pointer">✕</span></div>
+<div class="rx-row"><span><b>Glimepiride 1mg</b></span><span>Once daily</span><span>30 days</span><span>Oral</span><span style="color:#dc2626;cursor:pointer">✕</span></div>
+</div>
+<div style="display:flex;gap:8px">
+<button class="btn btn-blue">Save Case</button>
+<button class="btn btn-green" onclick="document.getElementById('endModal').classList.add('show')">End Consultation</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Appointments -->
+<div class="page" id="pg-appointments">
+<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:flex-end">
+<div class="fg" style="flex:1;min-width:200px;margin:0"><label>Search</label><input placeholder="Search patient or ID..."></div>
+<div class="fg" style="margin:0"><label>Status</label><select><option>All</option><option>scheduled</option><option>approved</option><option>checked_in</option><option>completed</option></select></div>
+<div class="fg" style="margin:0"><label>From</label><input type="date"></div>
+<div class="fg" style="margin:0"><label>To</label><input type="date"></div>
+</div>
+<div class="card">
+<table><thead><tr><th>ID</th><th>Type</th><th>Patient</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td>APT-00045</td><td><span class="badge bb">new visit</span></td><td>Amina Begum</td><td>2026-04-02</td><td>09:00</td><td><span class="badge bg">completed</span></td><td><a style="color:#2563eb;font-size:11px;cursor:pointer" onclick="showPage('writecase')">History</a></td></tr>
+<tr><td>APT-00046</td><td><span class="badge bb">follow up</span></td><td>David Kim</td><td>2026-04-02</td><td>10:00</td><td><span class="badge bp">in consultation</span></td><td><a style="color:#16a34a;font-size:11px;cursor:pointer" onclick="showPage('writecase')">Write Case</a></td></tr>
+<tr><td>APT-00047</td><td><span class="badge bo">emergency</span></td><td>Fatima Noor</td><td>2026-04-02</td><td>11:00</td><td><span class="badge by">checked in</span></td><td><span style="color:#16a34a;font-size:11px;cursor:pointer">Approve</span> <span style="color:#ea580c;font-size:11px;cursor:pointer">Reject</span></td></tr>
+<tr><td>APT-00050</td><td><span class="badge bb">new visit</span></td><td>Hannah Lee</td><td>2026-04-05</td><td>09:00</td><td><span class="badge bo">pending approval</span></td><td><span style="color:#16a34a;font-size:11px;cursor:pointer">Approve</span> <span style="color:#ea580c;font-size:11px;cursor:pointer">Reject</span></td></tr>
+<tr><td>APT-00052</td><td><span class="badge bp">telemedicine</span></td><td>Ibrahim Malik</td><td>2026-04-08</td><td>14:00</td><td><span class="badge by">scheduled</span></td><td></td></tr>
+</tbody></table>
+</div>
+</div>
+
+<!-- Calendar -->
+<div class="page" id="pg-calendar">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+<div style="display:flex;gap:8px;align-items:center"><button class="btn btn-gray btn-sm">← Prev</button><span style="font-size:16px;font-weight:600">April 2026</span><button class="btn btn-gray btn-sm">Next →</button><button class="btn btn-sm btn-blue">Today</button></div>
+<div style="font-size:12px;color:#64748b">💡 Drag appointments to reschedule</div>
+</div>
+<div style="display:flex;gap:12px;font-size:11px;margin-bottom:12px"><span>🔵 Appointment</span><span>🔴 Unavailable</span><span>🟣 Recurring Off</span></div>
+<div class="cal-grid">
+<div style="text-align:center;font-size:11px;font-weight:600;color:#64748b;padding:6px">Sun</div><div style="text-align:center;font-size:11px;font-weight:600;color:#64748b;padding:6px">Mon</div><div style="text-align:center;font-size:11px;font-weight:600;color:#64748b;padding:6px">Tue</div><div style="text-align:center;font-size:11px;font-weight:600;color:#64748b;padding:6px">Wed</div><div style="text-align:center;font-size:11px;font-weight:600;color:#64748b;padding:6px">Thu</div><div style="text-align:center;font-size:11px;font-weight:600;color:#64748b;padding:6px">Fri</div><div style="text-align:center;font-size:11px;font-weight:600;color:#64748b;padding:6px">Sat</div>
+<div class="cal-cell" style="background:#f1f5f9"></div><div class="cal-cell" style="background:#f1f5f9"></div><div class="cal-cell" style="background:#f1f5f9"></div>
+<div class="cal-cell"><div class="day">1</div><div class="ev" style="background:#dbeafe;color:#1e40af">3 appts</div></div>
+<div class="cal-cell" style="border-color:#3b82f6;background:#eff6ff"><div class="day" style="color:#2563eb">2 (Today)</div><div class="ev" style="background:#dbeafe;color:#1e40af">8 appts</div></div>
+<div class="cal-cell"><div class="day">3</div><div class="ev" style="background:#dbeafe;color:#1e40af">2 appts</div></div>
+<div class="cal-cell"><div class="day">4</div></div>
+<div class="cal-cell"><div class="day">5</div><div class="ev" style="background:#fee2e2;color:#991b1b">Off</div></div>
+<div class="cal-cell"><div class="day">6</div><div class="ev" style="background:#dbeafe;color:#1e40af">5 appts</div></div>
+<div class="cal-cell"><div class="day">7</div><div class="ev" style="background:#dbeafe;color:#1e40af">4 appts</div></div>
+<div class="cal-cell"><div class="day">8</div><div class="ev" style="background:#dbeafe;color:#1e40af">3 appts</div></div>
+<div class="cal-cell"><div class="day">9</div><div class="ev" style="background:#dbeafe;color:#1e40af">6 appts</div></div>
+<div class="cal-cell"><div class="day">10</div><div class="ev" style="background:#f3e8ff;color:#7c3aed">Training</div></div>
+<div class="cal-cell"><div class="day">11</div></div>
+<div class="cal-cell"><div class="day">12</div><div class="ev" style="background:#fee2e2;color:#991b1b">Off</div></div>
+</div>
+</div>
+
+<!-- Lab Orders -->
+<div class="page" id="pg-laborders">
+<div class="card"><h3>My Lab Orders</h3>
+<table><thead><tr><th>Order</th><th>Patient</th><th>Tests</th><th>Priority</th><th>Status</th><th>Date</th></tr></thead>
+<tbody>
+<tr><td style="font-family:monospace">LAB-00012</td><td>Amina Begum</td><td>CBC, ESR, CRP</td><td><span class="badge br">STAT</span></td><td><span class="badge bg">completed</span></td><td>2026-04-01</td></tr>
+<tr><td style="font-family:monospace">LAB-00015</td><td>David Kim</td><td>FBS, HbA1c</td><td><span class="badge bo">Urgent</span></td><td><span class="badge bp">processing</span></td><td>2026-04-02</td></tr>
+<tr><td style="font-family:monospace">LAB-00018</td><td>Fatima Noor</td><td>Urine Culture</td><td><span class="badge bg">Normal</span></td><td><span class="badge bb">ordered</span></td><td>2026-04-02</td></tr>
+</tbody></table>
+</div>
+</div>
+
+<!-- Cases -->
+<div class="page" id="pg-cases">
+<div class="card"><h3>My Cases</h3>
+<table><thead><tr><th>Case</th><th>Patient</th><th>Diagnosis</th><th>Status</th><th>Date</th></tr></thead>
+<tbody>
+<tr><td style="font-family:monospace">CASE-00012</td><td>Amina Begum</td><td>Hypertension Stage 1 (I10)</td><td><span class="badge by">in treatment</span></td><td>2026-04-02</td></tr>
+<tr><td style="font-family:monospace">CASE-00011</td><td>David Kim</td><td>Type 2 Diabetes (E11)</td><td><span class="badge bb">open</span></td><td>2026-04-02</td></tr>
+<tr><td style="font-family:monospace">CASE-00008</td><td>George Thompson</td><td>Acute Bronchitis (J20)</td><td><span class="badge bg">closed</span></td><td>2026-03-25</td></tr>
+</tbody></table>
+</div>
+</div>
+
+<!-- Schedule -->
+<div class="page" id="pg-schedule">
+<div class="card"><h3>My Availability</h3>
+<div class="fg"><label>Working Days</label></div>
+<div style="display:flex;gap:6px;margin-bottom:16px">
+<span class="slot active">Mon</span><span class="slot active">Tue</span><span class="slot active">Wed</span><span class="slot active">Thu</span><span class="slot active">Fri</span><span class="slot">Sat</span><span class="slot">Sun</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+<div class="fg"><label>From</label><input type="time" value="08:00"></div>
+<div class="fg"><label>To</label><input type="time" value="14:00"></div>
+<div class="fg"><label>Slot Duration (min)</label><input type="number" value="20"></div>
+</div>
+<button class="btn btn-green">Save Schedule</button>
+</div>
+<div class="card"><h3>Blocked Time</h3>
+<div style="background:#fee2e2;border-radius:8px;padding:10px;margin-bottom:8px;display:flex;justify-content:space-between;font-size:13px"><span>2026-04-05 (Full Day) — Conference</span><span style="color:#dc2626;cursor:pointer">Remove</span></div>
+<div style="background:#fee2e2;border-radius:8px;padding:10px;margin-bottom:8px;display:flex;justify-content:space-between;font-size:13px"><span>2026-04-10 12:00-14:00 — Personal</span><span style="color:#dc2626;cursor:pointer">Remove</span></div>
+<button class="btn btn-sm btn-red" style="margin-top:8px">+ Block Time</button>
+</div>
+</div>
+
+<!-- Unavailability -->
+<div class="page" id="pg-unavailability">
+<div class="card"><h3>Doctor Unavailability</h3><p style="font-size:13px;color:#64748b">Managed from My Schedule page → Block Time section</p></div>
+</div>
+
+<!-- Analytics -->
+<div class="page" id="pg-analytics">
+<div class="stats">
+<div class="stat" style="background:#16a34a"><div class="v">87%</div><div class="l">Completion Rate</div></div>
+<div class="stat" style="background:#2563eb"><div class="v">42</div><div class="l">Unique Patients</div></div>
+<div class="stat" style="background:#7c3aed"><div class="v">68</div><div class="l">This Month</div></div>
+<div class="stat" style="background:#f97316"><div class="v">+12%</div><div class="l">vs Last Month</div></div>
+</div>
+<div class="card"><h3>Top Visit Reasons</h3>
+<table><thead><tr><th>Reason</th><th>Count</th><th>%</th></tr></thead>
+<tbody>
+<tr><td>Routine checkup</td><td>18</td><td>26%</td></tr>
+<tr><td>Diabetes follow-up</td><td>12</td><td>18%</td></tr>
+<tr><td>Fever and cough</td><td>9</td><td>13%</td></tr>
+<tr><td>BP monitoring</td><td>8</td><td>12%</td></tr>
+</tbody></table>
+</div>
+</div>
+
+<!-- Notifications -->
+<div class="page" id="pg-notifications">
+<div style="display:flex;justify-content:space-between;margin-bottom:12px"><span style="font-size:14px;font-weight:600">Notifications</span><button class="btn btn-sm btn-green">Mark All Read</button></div>
+<div style="border-left:4px solid #3b82f6;background:#eff6ff;padding:12px;border-radius:0 8px 8px 0;margin-bottom:8px"><div style="display:flex;justify-content:space-between"><b style="font-size:13px">🧪 Lab Results Ready</b><span style="font-size:11px;color:#64748b">2 hours ago</span></div><p style="font-size:12px;color:#64748b;margin-top:4px">Lab results for Amina Begum (LAB-00012) are complete.</p></div>
+<div style="border-left:4px solid #dc2626;background:#fef2f2;padding:12px;border-radius:0 8px 8px 0;margin-bottom:8px"><div style="display:flex;justify-content:space-between"><b style="font-size:13px">⚠️ Critical Vitals Alert</b><span style="font-size:11px;color:#64748b">4 hours ago</span></div><p style="font-size:12px;color:#64748b;margin-top:4px">Patient David Kim has abnormal vitals: Temperature 39.5°C</p></div>
+<div style="background:#f8fafc;padding:12px;border-radius:8px;margin-bottom:8px"><div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:#64748b">📅 Appointment Confirmed</span><span style="font-size:11px;color:#94a3b8">1 day ago</span></div><p style="font-size:12px;color:#94a3b8;margin-top:4px">Hannah Lee confirmed for Apr 5 at 09:00</p></div>
+</div>
+
+</div><!-- end content -->
+</div><!-- end main -->
+
+<!-- End Consultation Modal -->
+<div class="modal-overlay" id="endModal">
+<div class="modal">
+<h3 style="font-size:18px;margin-bottom:4px">End Consultation</h3>
+<p style="font-size:12px;color:#64748b;margin-bottom:16px">David Kim — APT-00046</p>
+<div class="fg"><label>Consultation Complexity</label></div>
+<div class="complexity">
+<div onclick="selComplexity(this)" class="sel" style="border-color:#22c55e;background:#f0fdf4"><div style="font-weight:600">Simple</div><div style="font-size:10px;color:#64748b">Routine</div></div>
+<div onclick="selComplexity(this)"><div style="font-weight:600">Moderate</div><div style="font-size:10px;color:#64748b">Standard</div></div>
+<div onclick="selComplexity(this)"><div style="font-weight:600">Complex</div><div style="font-size:10px;color:#64748b">Detailed</div></div>
+</div>
+<div class="fg"><label>Consultation Charge ($)</label><input type="number" value="450.00" style="font-size:16px;font-weight:600"></div>
+<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+<button class="btn btn-gray" onclick="document.getElementById('endModal').classList.remove('show')">Cancel</button>
+<button class="btn btn-green" onclick="document.getElementById('endModal').classList.remove('show')">End Consultation</button>
+</div>
+</div>
+</div>
+
+<script>
+const titles={dashboard:'Dashboard',queue:"Today's Queue",writecase:'Write Case',appointments:'Appointments',calendar:'My Calendar',laborders:'Lab Orders',cases:'My Cases',schedule:'My Schedule',unavailability:'Unavailability',analytics:'Performance Analytics',notifications:'Notifications'}
+function showPage(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
+document.querySelectorAll('.sidebar .nav-item').forEach(n=>n.classList.remove('active'))
+const pg=document.getElementById('pg-'+id)
+if(pg)pg.classList.add('active')
+document.getElementById('pageTitle').textContent=titles[id]||id
+event?.target?.classList?.add('active')
+}
+function selComplexity(el){
+el.parentElement.querySelectorAll('div').forEach(d=>{d.classList.remove('sel');d.style.borderColor='#e2e8f0';d.style.background='#fff'})
+el.classList.add('sel');el.style.borderColor='#2563eb';el.style.background='#eff6ff'
+}
+</script>
+</body>
+</html>

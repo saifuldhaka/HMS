@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HMS — Pharmacy Portal Prototype</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;display:flex;height:100vh;overflow:hidden}
+.sb{width:220px;background:#0f172a;color:#e2e8f0;display:flex;flex-direction:column;flex-shrink:0}.sb .logo{padding:14px 18px;font-size:16px;font-weight:700;border-bottom:1px solid #1e293b}.sb nav{flex:1;overflow-y:auto;padding:6px}
+.ni{display:block;padding:8px 14px;border-radius:6px;font-size:12px;color:#94a3b8;cursor:pointer;margin:1px 0}.ni:hover{background:#1e293b;color:#e2e8f0}.ni.a{background:#1e40af;color:#fff}
+.ng{font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:1px;padding:10px 14px 3px}
+.ub{padding:10px 14px;border-top:1px solid #1e293b;font-size:11px}
+.mn{flex:1;display:flex;flex-direction:column;overflow:hidden}.hd{background:#fff;border-bottom:1px solid #e2e8f0;padding:10px 20px;display:flex;justify-content:space-between;align-items:center}.hd .t{font-size:16px;font-weight:700}.ct{flex:1;overflow-y:auto;padding:20px}
+.sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}.st{padding:14px;border-radius:8px;color:#fff}.st .v{font-size:24px;font-weight:800}.st .l{font-size:10px;opacity:.85;margin-top:2px}
+.cd{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:16px;margin-bottom:14px}.cd h3{font-size:14px;font-weight:600;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:12px}th{background:#f8fafc;padding:8px 10px;text-align:left;font-weight:600;color:#64748b;border-bottom:2px solid #e2e8f0}td{padding:8px 10px;border-bottom:1px solid #f1f5f9}
+.b{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500}.bg{background:#dcfce7;color:#166534}.by{background:#fef9c3;color:#854d0e}.br{background:#fee2e2;color:#991b1b}.bb{background:#dbeafe;color:#1e40af}.bp{background:#f3e8ff;color:#7c3aed}.bo{background:#ffedd5;color:#c2410c}
+.btn{padding:5px 12px;border-radius:5px;font-size:11px;font-weight:500;cursor:pointer;border:none;display:inline-block}.btn-b{background:#2563eb;color:#fff}.btn-g{background:#16a34a;color:#fff}.btn-r{background:#dc2626;color:#fff}.btn-gr{background:#e2e8f0;color:#475151}
+.fg{margin-bottom:10px}.fg label{display:block;font-size:11px;font-weight:500;color:#64748b;margin-bottom:3px}.fg input,.fg select{width:100%;padding:7px 10px;border:1px solid #d1d5db;border-radius:5px;font-size:12px}
+.pg{display:none}.pg.a{display:block}
+.cart-i{background:#f8fafc;border-radius:6px;padding:8px;margin-bottom:6px;border:1px solid #e2e8f0;font-size:12px}
+</style>
+</head>
+<body>
+<div class="sb">
+<div class="logo">🏥 HMS Healthcare</div>
+<nav>
+<a class="ni a" onclick="sp('dash')">📊 Dashboard</a>
+<div class="ng">Dispensing</div>
+<a class="ni" onclick="sp('queue')">📋 Dispensing Queue</a>
+<a class="ni" onclick="sp('pos')">⚡ Quick Sale (POS)</a>
+<a class="ni" onclick="sp('history')">📜 History</a>
+<div class="ng">Inventory</div>
+<a class="ni" onclick="sp('medicines')">💊 Medicines</a>
+<a class="ni" onclick="sp('stock')">📦 Stock & Alerts</a>
+<a class="ni" onclick="sp('expiry')">⏰ Expiry Mgmt</a>
+<div class="ng">Billing</div>
+<a class="ni" onclick="sp('billing')">🧾 Invoices</a>
+<a class="ni" onclick="sp('sales')">💵 Sales</a>
+<a class="ni" onclick="sp('returns')">↩️ Returns</a>
+<div class="ng">Supply Chain</div>
+<a class="ni" onclick="sp('suppliers')">🏭 Suppliers</a>
+<a class="ni" onclick="sp('purchases')">📦 Purchases</a>
+<a class="ni" onclick="sp('supreturns')">↩️ Supplier Returns</a>
+</nav>
+<div class="ub"><div style="font-weight:600">💊 Pharmacist Sarah</div><div style="color:#64748b">Pharmacist</div></div>
+</div>
+<div class="mn">
+<div class="hd"><div class="t" id="pt">Dashboard</div><div style="font-size:12px;color:#64748b">Pharmacist Portal</div></div>
+<div class="ct">
+
+<div class="pg a" id="p-dash">
+<div class="sts">
+<div class="st" style="background:#2563eb"><div class="v">5</div><div class="l">Pending Queue</div></div>
+<div class="st" style="background:#16a34a"><div class="v">12</div><div class="l">Dispensed Today</div></div>
+<div class="st" style="background:#eab308"><div class="v">2</div><div class="l">Partial</div></div>
+<div class="st" style="background:#dc2626"><div class="v">8</div><div class="l">Low Stock</div></div>
+<div class="st" style="background:#f97316"><div class="v">3</div><div class="l">Near Expiry</div></div>
+<div class="st" style="background:#14b8a6"><div class="v">$2,450</div><div class="l">Today's Sales</div></div>
+</div>
+<div class="cd"><h3>Recent Pending Prescriptions</h3>
+<table><thead><tr><th>Rx</th><th>Patient</th><th>Doctor</th><th>Items</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td style="font-family:monospace">RX-00018</td><td>Amina Begum</td><td>Dr. Aisha Rahman</td><td>2</td><td><button class="btn btn-g" onclick="sp('queue')">Dispense</button></td></tr>
+<tr><td style="font-family:monospace">RX-00019</td><td>David Kim</td><td>Dr. Carlos Mendez</td><td>3</td><td><button class="btn btn-g" onclick="sp('queue')">Dispense</button></td></tr>
+</tbody></table></div>
+</div>
+
+<div class="pg" id="p-queue">
+<div class="cd"><h3>Dispensing Queue</h3>
+<table><thead><tr><th>Prescription</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Items</th><th>Status</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td style="font-family:monospace">RX-00018</td><td>Amina Begum</td><td>Dr. Aisha Rahman</td><td>2026-04-02</td><td>2</td><td><span class="b bb">pending</span></td><td><button class="btn btn-g">Dispense</button></td></tr>
+<tr><td style="font-family:monospace">RX-00019</td><td>David Kim</td><td>Dr. Carlos Mendez</td><td>2026-04-02</td><td>3</td><td><span class="b bb">pending</span></td><td><button class="btn btn-g">Dispense</button></td></tr>
+<tr><td style="font-family:monospace">RX-00017</td><td>George Thompson</td><td>Dr. Rajesh Kumar</td><td>2026-04-01</td><td>1</td><td><span class="b by">partial</span></td><td><button class="btn btn-g">Dispense</button></td></tr>
+</tbody></table></div>
+<div class="cd" style="border-left:3px solid #16a34a"><h3>Dispense Modal — RX-00018</h3><p style="font-size:12px;color:#64748b;margin-bottom:10px">Amina Begum · Dr. Aisha Rahman</p>
+<table><thead><tr><th>Medicine</th><th>Prescribed</th><th>Stock</th><th>Dispense Qty</th></tr></thead>
+<tbody><tr><td>Amlodipine 5mg</td><td>30</td><td style="color:#16a34a">✓ 150</td><td><input type="number" value="30" style="width:60px;padding:4px;border:1px solid #d1d5db;border-radius:4px"></td></tr>
+<tr><td>Hydrochlorothiazide 25mg</td><td>30</td><td style="color:#16a34a">✓ 85</td><td><input type="number" value="30" style="width:60px;padding:4px;border:1px solid #d1d5db;border-radius:4px"></td></tr></tbody></table>
+<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px"><button class="btn btn-gr">Cancel</button><button class="btn btn-g">Confirm Dispense</button></div></div>
+</div>
+
+<div class="pg" id="p-pos">
+<div style="display:flex;gap:16px;height:calc(100vh - 120px)">
+<div style="flex:1;display:flex;flex-direction:column">
+<input style="width:100%;padding:10px;border:2px solid #2563eb;border-radius:8px;font-size:14px;margin-bottom:12px" placeholder="🔍 Search medicine by name or code..." value="Amlo">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;overflow-y:auto">
+<div style="border:1px solid #e2e8f0;border-radius:8px;padding:12px;cursor:pointer;background:#fff"><div style="font-weight:600">Amlodipine 5mg</div><div style="font-size:11px;color:#64748b">MED-0001 · 5mg</div><div style="display:flex;justify-content:space-between;margin-top:6px"><span style="font-size:16px;font-weight:700;color:#16a34a">$2.50</span><span class="b bg">150</span></div></div>
+<div style="border:1px solid #e2e8f0;border-radius:8px;padding:12px;cursor:pointer;background:#fff"><div style="font-weight:600">Amlodipine 10mg</div><div style="font-size:11px;color:#64748b">MED-0002 · 10mg</div><div style="display:flex;justify-content:space-between;margin-top:6px"><span style="font-size:16px;font-weight:700;color:#16a34a">$3.80</span><span class="b by">12</span></div></div>
+</div>
+</div>
+<div style="width:260px;background:#fff;border-radius:8px;padding:14px;border:1px solid #e2e8f0;display:flex;flex-direction:column">
+<div style="font-weight:700;margin-bottom:8px">Cart (2)</div>
+<div style="flex:1;overflow-y:auto">
+<div class="cart-i"><div style="display:flex;justify-content:space-between"><b>Amlodipine 5mg</b><span style="color:#dc2626;cursor:pointer">✕</span></div><div style="display:flex;justify-content:space-between;margin-top:4px"><div><button class="btn btn-gr" style="padding:2px 8px">−</button> <b>30</b> <button class="btn btn-gr" style="padding:2px 8px">+</button></div><b>$75.00</b></div></div>
+<div class="cart-i"><div style="display:flex;justify-content:space-between"><b>Paracetamol 500mg</b><span style="color:#dc2626;cursor:pointer">✕</span></div><div style="display:flex;justify-content:space-between;margin-top:4px"><div><button class="btn btn-gr" style="padding:2px 8px">−</button> <b>10</b> <button class="btn btn-gr" style="padding:2px 8px">+</button></div><b>$5.00</b></div></div>
+</div>
+<div style="border-top:2px solid #e2e8f0;padding-top:10px;margin-top:8px">
+<div style="display:flex;justify-content:space-between;font-size:18px;font-weight:700"><span>Total</span><span>$80.00</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3px;margin-top:8px">
+<div style="padding:6px;border:2px solid #2563eb;border-radius:4px;text-align:center;font-size:10px;font-weight:600;background:#eff6ff">Cash</div>
+<div style="padding:6px;border:1px solid #d1d5db;border-radius:4px;text-align:center;font-size:10px">Card</div>
+<div style="padding:6px;border:1px solid #d1d5db;border-radius:4px;text-align:center;font-size:10px">Online</div>
+<div style="padding:6px;border:1px solid #d1d5db;border-radius:4px;text-align:center;font-size:10px">Ins.</div>
+</div>
+<button class="btn btn-g" style="width:100%;padding:10px;font-size:14px;margin-top:8px">Charge $80.00</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="pg" id="p-medicines"><div class="cd"><h3>Medicines Catalog (55+ items)</h3><div style="display:flex;gap:8px;margin-bottom:10px"><input placeholder="Search..." style="flex:1;padding:6px 10px;border:1px solid #d1d5db;border-radius:5px;font-size:12px"><select style="padding:6px;border:1px solid #d1d5db;border-radius:5px;font-size:12px"><option>All Categories</option><option>Tablet</option><option>Capsule</option><option>Syrup</option></select><select style="padding:6px;border:1px solid #d1d5db;border-radius:5px;font-size:12px"><option>All Stock</option><option>Low</option><option>Out</option></select></div>
+<table><thead><tr><th>Code</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th></tr></thead>
+<tbody><tr><td style="font-family:monospace">MED-0001</td><td>Amlodipine 5mg</td><td>Tablet</td><td>$2.50</td><td style="color:#16a34a;font-weight:600">150</td><td><span class="b bg">ok</span></td></tr>
+<tr><td style="font-family:monospace">MED-0008</td><td>Amoxicillin 250mg</td><td>Capsule</td><td>$1.80</td><td style="color:#dc2626;font-weight:600">0</td><td><span class="b br">out</span></td></tr>
+<tr><td style="font-family:monospace">MED-0012</td><td>Metformin 500mg</td><td>Tablet</td><td>$1.20</td><td style="color:#eab308;font-weight:600">5</td><td><span class="b by">low</span></td></tr></tbody></table></div></div>
+
+<div class="pg" id="p-stock"><div class="cd"><h3>Stock Alerts</h3>
+<div class="sts" style="grid-template-columns:repeat(4,1fr)">
+<div class="st" style="background:#dc2626"><div class="v">3</div><div class="l">Out of Stock</div></div>
+<div class="st" style="background:#eab308"><div class="v">8</div><div class="l">Low Stock</div></div>
+<div class="st" style="background:#f97316"><div class="v">5</div><div class="l">Near Expiry</div></div>
+<div class="st" style="background:#7c2d12"><div class="v">2</div><div class="l">Expired</div></div>
+</div></div></div>
+
+<div class="pg" id="p-expiry"><div class="cd"><h3>Expiry Management</h3><p style="font-size:12px;color:#64748b">Near-expiry and expired batches with write-off</p></div></div>
+<div class="pg" id="p-billing"><div class="cd"><h3>Pharmacy Invoices</h3><p style="font-size:12px;color:#64748b">Auto-generated from dispensing + walk-in sales</p></div></div>
+<div class="pg" id="p-sales"><div class="cd"><h3>Daily Sales</h3><div class="sts" style="grid-template-columns:repeat(4,1fr)"><div class="st" style="background:#16a34a"><div class="v">$2,450</div><div class="l">Sales</div></div><div class="st" style="background:#dc2626"><div class="v">$150</div><div class="l">Returns</div></div><div class="st" style="background:#2563eb"><div class="v">$2,300</div><div class="l">Net</div></div><div class="st" style="background:#7c3aed"><div class="v">18</div><div class="l">Transactions</div></div></div></div></div>
+<div class="pg" id="p-returns"><div class="cd"><h3>Patient Returns & Refunds</h3><p style="font-size:12px;color:#64748b">Approval workflow with restock option</p></div></div>
+<div class="pg" id="p-suppliers"><div class="cd"><h3>Suppliers</h3><table><thead><tr><th>Code</th><th>Name</th><th>Contact</th><th>Terms</th></tr></thead><tbody><tr><td>SUP-0001</td><td>MedSupply Corp</td><td>John Smith</td><td>Net 30</td></tr></tbody></table></div></div>
+<div class="pg" id="p-purchases"><div class="cd"><h3>Purchase Orders</h3><p style="font-size:12px;color:#64748b">Create POs, receive stock with batch tracking</p></div></div>
+<div class="pg" id="p-supreturns"><div class="cd"><h3>Supplier Returns</h3><p style="font-size:12px;color:#64748b">Return expired/damaged medicines to suppliers</p></div></div>
+<div class="pg" id="p-history"><div class="cd"><h3>Dispensing History</h3><p style="font-size:12px;color:#64748b">All dispensed prescriptions with filters</p></div></div>
+
+</div></div>
+<script>
+const t={dash:'Dashboard',queue:'Dispensing Queue',pos:'Quick Sale (POS)',history:'Dispensing History',medicines:'Medicines Catalog',stock:'Stock & Alerts',expiry:'Expiry Management',billing:'Pharmacy Invoices',sales:'Daily Sales',returns:'Returns & Refunds',suppliers:'Suppliers',purchases:'Purchase Orders',supreturns:'Supplier Returns'}
+function sp(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('a'));document.querySelectorAll('.ni').forEach(n=>n.classList.remove('a'));const p=document.getElementById('p-'+id);if(p)p.classList.add('a');document.getElementById('pt').textContent=t[id]||id;event?.target?.classList?.add('a')}
+</script>
+</body></html>

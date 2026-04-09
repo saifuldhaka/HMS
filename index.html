@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HMS — Hospital Management System Prototype</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+a{text-decoration:none;color:inherit}
+
+/* Hero */
+.hero{text-align:center;padding:60px 20px 40px;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%)}
+.hero .icon{font-size:72px;margin-bottom:16px}
+.hero h1{font-size:42px;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:18px;color:#94a3b8;max-width:600px;margin:0 auto 24px}
+.hero .stats{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.hero .stat-pill{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:8px 20px;font-size:14px}
+.hero .stat-pill b{color:#60a5fa}
+
+/* Sections */
+.section{max-width:1100px;margin:0 auto;padding:40px 20px}
+.section h2{font-size:28px;font-weight:700;margin-bottom:8px;text-align:center}
+.section .sub{text-align:center;color:#64748b;font-size:15px;margin-bottom:30px}
+
+/* Role Cards */
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.role-card{background:#1e293b;border-radius:14px;padding:24px;border:1px solid #334155;transition:all .2s;cursor:pointer;display:block}
+.role-card:hover{transform:translateY(-4px);border-color:#3b82f6;box-shadow:0 8px 30px rgba(59,130,246,.15)}
+.role-card .emoji{font-size:36px;margin-bottom:12px}
+.role-card h3{font-size:18px;font-weight:700;margin-bottom:6px}
+.role-card p{font-size:13px;color:#94a3b8;line-height:1.6;margin-bottom:12px}
+.role-card .pages{font-size:11px;color:#64748b}
+.role-card .tag{display:inline-block;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;margin-top:8px}
+.tag-blue{background:rgba(59,130,246,.15);color:#60a5fa}
+.tag-green{background:rgba(34,197,94,.15);color:#4ade80}
+.tag-purple{background:rgba(168,85,247,.15);color:#c084fc}
+.tag-orange{background:rgba(249,115,22,.15);color:#fb923c}
+.tag-red{background:rgba(239,68,68,.15);color:#f87171}
+.tag-teal{background:rgba(20,184,166,.15);color:#2dd4bf}
+.tag-yellow{background:rgba(234,179,8,.15);color:#facc15}
+
+/* Other Links */
+.extras{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:30px}
+.extra-card{background:#1e293b;border-radius:10px;padding:18px;border:1px solid #334155;display:block;transition:all .2s}
+.extra-card:hover{border-color:#60a5fa;transform:translateY(-2px)}
+.extra-card h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.extra-card p{font-size:12px;color:#64748b}
+
+/* Flow */
+.flow-bar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.flow-step{background:#1e293b;border:1px solid #334155;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600}
+.flow-arrow{color:#3b82f6;font-size:16px;align-self:center}
+
+/* Footer */
+.footer{text-align:center;padding:40px 20px;color:#475569;font-size:13px;border-top:1px solid #1e293b;margin-top:40px}
+.footer a{color:#60a5fa}
+
+/* Tech */
+.tech-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.tech-tag{background:#1e293b;border:1px solid #334155;padding:6px 16px;border-radius:8px;font-size:13px}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+<div class="icon">🏥</div>
+<h1>Hospital Management System</h1>
+<p>Complete digital healthcare platform — interactive prototype</p>
+<!--
+<div class="tech-bar">
+<span class="tech-tag">Laravel 10</span>
+<span class="tech-tag">React 18</span>
+<span class="tech-tag">MySQL</span>
+<span class="tech-tag">Tailwind CSS</span>
+<span class="tech-tag">9 Roles</span>
+</div>
+-->
+<div class="stats">
+<span class="stat-pill"><b>14</b> Modules</span>
+<span class="stat-pill"><b>90+</b> Pages</span>
+<span class="stat-pill"><b>180+</b> APIs</span>
+<span class="stat-pill"><b>55+</b> Tables</span>
+<span class="stat-pill"><b>5</b> Languages</span>
+</div>
+</div>
+
+<!-- Patient Flow -->
+<div class="section">
+<h2>Patient Journey</h2>
+<p class="sub">Complete flow from booking to medicine collection</p>
+<div class="flow-bar">
+<div class="flow-step">📅 Book Online</div><div class="flow-arrow">→</div>
+<div class="flow-step">✅ Receptionist Approves</div><div class="flow-arrow">→</div>
+<div class="flow-step">🏥 Check-In</div><div class="flow-arrow">→</div>
+<div class="flow-step">👨‍⚕️ Doctor Consults</div><div class="flow-arrow">→</div>
+<div class="flow-step">📋 Sets Charge</div><div class="flow-arrow">→</div>
+<div class="flow-step">💵 Pay at Cashier</div><div class="flow-arrow">→</div>
+<div class="flow-step">💊 Collect Meds</div>
+</div>
+</div>
+
+<!-- Role Portals -->
+<div class="section">
+<h2>Explore by Role</h2>
+<p class="sub">Click any role to open its interactive portal prototype</p>
+<div class="roles">
+
+<a href="admin.html" class="role-card">
+<div class="emoji">🏥</div>
+<h3>System Admin</h3>
+<p>Full system oversight. Patient/doctor/staff management, analytics, revenue reports, role permissions, backups, settings.</p>
+<div class="pages">18 pages · Dashboard, Analytics, Revenue, Permissions, Backup, Import/Export...</div>
+<span class="tag tag-blue">Full Access (Backup Role)</span>
+</a>
+
+<a href="doctor.html" class="role-card">
+<div class="emoji">👨‍⚕️</div>
+<h3>Doctor</h3>
+<p>Consultations with timer, write cases with templates + patient sidebar, prescriptions, lab orders, calendar with drag-drop.</p>
+<div class="pages">10 pages · Queue, Write Case, Calendar, Lab Orders, Analytics...</div>
+<span class="tag tag-green">Sets Complexity & Charge</span>
+</a>
+
+<a href="receptionist.html" class="role-card">
+<div class="emoji">🧑‍💼</div>
+<h3>Receptionist</h3>
+<p>Appointment approval, patient check-in with queue numbers, billing with invoice generation, patient management.</p>
+<div class="pages">7 pages · Appointments, Check-In, Queue, Billing...</div>
+<span class="tag tag-purple">Primary Appointment Flow</span>
+</a>
+
+<a href="pharmacy.html" class="role-card">
+<div class="emoji">💊</div>
+<h3>Pharmacist</h3>
+<p>Dispense prescriptions (FEFO), POS mode for walk-in sales, stock management, supplier returns, billing.</p>
+<div class="pages">14 pages · Queue, POS, Medicines, Stock, Sales, Returns...</div>
+<span class="tag tag-orange">Auto-Invoice on Dispense</span>
+</a>
+
+<a href="cashier.html" class="role-card">
+<div class="emoji">💰</div>
+<h3>Cashier</h3>
+<p>Only role that collects payments. Session management, patient search, payment collection, receipt printing.</p>
+<div class="pages">3 pages · Dashboard, Session, Daily Report</div>
+<span class="tag tag-red">Only Payment Collector</span>
+</a>
+
+<a href="ui-mockups.html" class="role-card">
+<div class="emoji">🧑‍💻</div>
+<h3>Patient Portal</h3>
+<p>Personal dashboard, appointments, medical records, health info, documents, lab results, prescriptions, bills, doctor rating.</p>
+<div class="pages">14 pages · Dashboard, Appointments, Bills, Lab Results, Rate Doctor...</div>
+<span class="tag tag-teal">Personal Data Only</span>
+</a>
+
+</div>
+</div>
+
+<!-- Other Resources -->
+<div class="section">
+<h2>Additional Resources</h2>
+<p class="sub">Presentations, wireframes, and public pages</p>
+<div class="extras">
+
+<a href="ui-mockups.html" class="extra-card">
+<h4>🌐 Public Pages + All Roles</h4>
+<p>Home, Search Doctors, Book Appointment, Queue Display, Patient, Doctor, Pharmacy, Cashier tabs</p>
+</a>
+
+<a href="wireframes.html" class="extra-card">
+<h4>📐 Wireframes</h4>
+<p>8 screen wireframes: booking, appointments, write case, lab queue, pharmacy, cashier, queue TV, admin</p>
+</a>
+
+<a href="../HMS-Presentation.html" class="extra-card">
+<h4>📊 Slide Presentation</h4>
+<p>16-slide presentation with all features, roles, pages, and future roadmap</p>
+</a>
+
+<a href="ui-mockups.html#public" class="extra-card" onclick="localStorage.setItem('tab','public')">
+<h4>📺 Queue Display (TV)</h4>
+<p>Public waiting room display — dark theme, live clock, estimated wait times, no login needed</p>
+</a>
+
+</div>
+</div>
+
+<!-- Key Rules -->
+<div class="section">
+<h2>Key System Rules</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:16px">
+<div style="background:#1e293b;border-radius:10px;padding:16px;border-left:4px solid #3b82f6">
+<h4 style="font-size:13px;margin-bottom:4px">👨‍⚕️ Doctor Sets Charge</h4>
+<p style="font-size:12px;color:#94a3b8">Doctor selects complexity (Simple/Moderate/Complex) and enters charge amount when ending consultation</p>
+</div>
+<div style="background:#1e293b;border-radius:10px;padding:16px;border-left:4px solid #dc2626">
+<h4 style="font-size:13px;margin-bottom:4px">💵 Pay Before Pharmacy</h4>
+<p style="font-size:12px;color:#94a3b8">Patient pays at cashier counter BEFORE collecting medicines from pharmacy</p>
+</div>
+<div style="background:#1e293b;border-radius:10px;padding:16px;border-left:4px solid #f97316">
+<h4 style="font-size:13px;margin-bottom:4px">💰 Only Cashier Collects</h4>
+<p style="font-size:12px;color:#94a3b8">No other role can accept payments. Only the Cashier role has payment collection access</p>
+</div>
+<div style="background:#1e293b;border-radius:10px;padding:16px;border-left:4px solid #a855f7">
+<h4 style="font-size:13px;margin-bottom:4px">🏥 Admin = Backup</h4>
+<p style="font-size:12px;color:#94a3b8">Admin has full access but primary role is oversight & reports. Operational tasks only in emergencies</p>
+</div>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+<p>HMS — Hospital Management System · Interactive Prototype</p>
+<p style="margin-top:6px">Built with Laravel 10 + React 18 + MySQL + Tailwind CSS</p>
+<p style="margin-top:6px">9 Roles · 14 Modules · 90+ Pages · 180+ API Endpoints · 5 Languages</p>
+</div>
+
+</body>
+</html>
